@@ -1,0 +1,126 @@
+<div class="card input-card flex flex-column gap-3" style="height: 91%;" >
+  <p-toast></p-toast>
+  <!-- Question Input -->
+  <div  style="height: 10%;">
+    <form [formGroup]="registrationForm">
+      <p-toast position="top-center"></p-toast>
+
+      <div class=" flex gap-3" >
+        <div  class="p-field dropdown-width">
+          <label for="inputText">対象年</label>
+          <p-dropdown styleClass="fullwidth" [options]="year_list" formControlName="year" placeholder="-未選択-" ></p-dropdown>
+        </div>
+
+        <div class="p-field dropdown-width" >
+          <label for="inputText">対象月</label>
+          <p-dropdown styleClass="fullwidth" [options]="months" formControlName="month" placeholder="-未選択-"></p-dropdown>
+        </div>
+
+        <div class="p-field" style="width: 15rem;padding-top :25px">
+          <button pButton type="button" label="請求取得"    (click)="onSeachMast()" style="width: 100%;"></button>
+        </div>
+      </div>
+    </form>
+  </div>
+    <div class="table-container">
+      <div class="flex  gap-3 ">
+        <div class="header-container ">
+          <a href="#" class="select-all-link" (click)="toggleSelectAll($event)" >全選択</a>
+        </div>
+
+      </div>
+      <p-table [value]="products" 
+      [scrollable]="true"
+      scrollHeight="63vh"
+      scrollWidth="100%" 
+      [sortMode]="'single'"
+      [selectionMode]="'single'"
+      [(selection)]="selectedRow">
+
+<ng-template pTemplate="header">
+ <tr>
+   <th style="min-width: 100px;">送付対象</th>
+   <th style="min-width: 350px;">送付先</th>
+   <th style="min-width: 350px;">店舗アドレス設定</th>
+   <th style="min-width: 350px;">代理店名</th>
+   <th style="min-width: 450px;">件名</th>
+   <th style="min-width: 150px;">金額</th>
+ </tr>
+</ng-template>
+
+<ng-template pTemplate="body" let-product let-i="rowIndex">
+ <tr>
+   <td>
+    
+    <p-checkbox 
+    [(ngModel)]="product.delivery_target_chek"
+    (onChange)="onCheckboxChange(product)"
+
+    binary="true"  ></p-checkbox>
+   </td>
+
+     <!-- 送付先 -->
+     <td>
+      <div *ngFor="let address of product.shipping_address; let addrIndex = index" class="address-group" >
+        
+        <p-dropdown [options]="product.drw" appendTo="body" [(ngModel)]="address.value"   placeholder="未選択" ></p-dropdown>
+        <button *ngIf="addrIndex === product.shipping_address.length - 1" style="margin: 0px 0px 0px 10px;"
+                pButton type="button" icon="pi pi-plus" (click)="addAddressD(product)">
+        </button>
+        <button pButton type="button" icon="pi pi-minus" style="margin: 0px 10px 0px 10px;" (click)="removeAddressD(product, addrIndex)"></button>
+      </div>
+      <!-- <div *ngIf="product.shipping_address.length === 0" class="address-group">
+        <p-dropdown [options]="product.drw" [(ngModel)]="product.shipping_address[0].value" placeholder="未選択"></p-dropdown>
+        <button pButton type="button" icon="pi pi-plus" (click)="addAddressD(product)" style="margin: 0px 10px 0px 10px;"></button>
+      </div> -->
+     </td>
+
+     <!-- 店舗アドレス設定 -->
+     <td>
+      <!-- 遍历 store_address_setting -->
+      <div *ngFor="let address of product.store_address_settings; let addrIndex = index" class="address-group" >
+        
+        <p-dropdown [options]="product.drw" appendTo="body" [(ngModel)]="address.value"   placeholder="未選択" ></p-dropdown>
+        <button *ngIf="addrIndex === product.store_address_settings.length - 1" style="margin: 0px 0px 0px 10px;"
+                pButton type="button" icon="pi pi-plus" (click)="addAddress(product)">
+        </button>
+        <button pButton type="button" icon="pi pi-minus" style="margin: 0px 10px 0px 10px;" (click)="removeAddress(product, addrIndex)"></button>
+      </div>
+    
+      <!-- 当 store_address_setting 是空数组时，显示一个默认下拉框和加号按钮 -->
+      <!-- <div *ngIf="product.store_address_settings.length === 0" class="address-group">
+        <p-dropdown [options]="product.drw" [(ngModel)]="placeholderAddressB.value" placeholder="未選択"></p-dropdown>
+        <button pButton type="button" icon="pi pi-plus" (click)="addAddress(product)" style="margin: 0px 10px 0px 10px;"></button>
+      </div> -->
+    </td>
+
+   <td>{{ product.agency_name }}</td>
+   <td>{{ product.subject_name }}</td>
+   <td>{{ product.amount }}</td>
+ </tr>
+</ng-template>
+</p-table>
+
+
+    </div>
+        <div style="width: 100%;" class="flex gap-3">
+          <div class="p-field" style="width: 20rem;">
+                
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            <button pButton type="button" icon="pi pi-arrow-left" style="width: 100%;" label="戻る" class="back-button"(click)="goBack()"></button>
+
+          </div>
+          <div class="p-field" style="width: 20rem;">
+              <button pButton type="button"
+              [disabled]="selectedItems.length == 0"
+              label="プレビューへ" style="width: 100%;" (click)="previewPageShow()"></button>
+          </div>
+      </div>
+  </div>

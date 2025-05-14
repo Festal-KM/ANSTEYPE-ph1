@@ -1,0 +1,82 @@
+<div class="card input-card flex flex-column gap-3" style="height: 86vh;">
+    <div class="actions-section">
+        <p class="s-title">取引先一覧</p>
+        <button pButton type="button" icon="pi pi-plus" label="新規登録" (click)="new()"></button>
+    </div>
+
+    <div>
+        <p-table [value]="data" responsiveLayout="scroll" class="custom-table" scrollHeight="65vh">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3%;"></th>
+                    <th style="width: 17%;">会社名/店舗名</th>
+                    <th style="width: 40%;">住所</th>
+                    <th style="width: 17%;">見積担当者</th>
+                    <th style="width: 17%;">請求担当者</th>
+                    <th style="width: 6%;"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr>
+                    <td>
+                        <i class="pi" (click)="rowData.expanded = !rowData.expanded" [class.pi-chevron-down]="rowData.expanded" [class.pi-chevron-up]="!rowData.expanded">
+                        </i>
+                    </td>
+                    <td>
+                        <!-- <button type="button" (click)="rowData.expanded = !rowData.expanded" class="p-button-text">
+                            {{ rowData.expanded ? '-' : '+' }}
+                        </button> -->
+                        {{ rowData.company_name }}
+                    </td>
+                    <td>{{ rowData.company_address }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button pButton type="button" icon="pi pi-pencil" (click)="edit(rowData.id)"></button>
+                    </td>
+                </tr>
+                <ng-container *ngIf="rowData.expanded">
+                    <ng-container *ngIf="rowData.stores?.length; else noChildren">
+                        <tr *ngFor="let childRow of rowData.stores">
+                            <td></td>
+                            <td>
+                                {{ childRow.store_name }}
+                            </td>
+                            <td>{{ childRow.store_address }}</td>
+                            <td>
+                                <ng-container *ngFor="let item of childRow.persons">
+                                    <ng-container *ngIf="item.type_flag === 1">
+                                        {{ item.last_name + " " + item.first_name }}<br />
+                                    </ng-container>
+                                </ng-container>
+                            <td>
+                                <ng-container *ngFor="let item of childRow.persons">
+                                    <ng-container *ngIf="item.type_flag === 2">
+                                        {{ item.last_name + " " + item.first_name }}<br />
+                                    </ng-container>
+                                </ng-container>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </ng-container>
+                    <ng-template #noChildren>
+                        <tr>
+                          <td colspan="5" style="padding-left: 2rem; color: gray;">
+                            No children available.
+                          </td>
+                        </tr>
+                      </ng-template>
+                </ng-container>
+            </ng-template>
+            <!-- <ng-template pTemplate="rowexpansion" let-client>
+                <div fxLayout="column" style="padding: 16px;">
+                    <div *ngFor="let store of client.stores" fxLayout="row" fxLayoutGap="16px">
+                        <div fxFlex="30%">{{ store.name }}</div>
+                        <div fxFlex="30%">{{ store.estimatePerson }}</div>
+                        <div fxFlex="30%">{{ store.invoicePerson }}</div>
+                    </div>
+                </div>
+            </ng-template> -->
+        </p-table>
+    </div>
+</div>

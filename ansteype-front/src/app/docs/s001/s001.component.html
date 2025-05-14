@@ -1,0 +1,106 @@
+<div class="card input-card bkHeight">
+  <p class="time-title ">{{ titleYear }}年{{ titleMonth }}月</p>
+  <div class="flex">
+    <div class="main-container">
+      <p-table [value]="data" [responsiveLayout]="'scroll'" class="custom-table" scrollHeight="40vh" scrollWidth="100%">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 5%;"></th>
+            <th style="width: 15%;">会社名</th>
+            <th style="width: 40%;">見積総額</th>
+            <th style="width: 40%;">請求総額</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-company>
+          <tr (click)="goToDetails(company)" [style.cursor]="'pointer'">
+            <td>
+              <i class="pi" (click)="$event.stopPropagation(); company.expanded = !company.expanded" [class.pi-chevron-down]="company.expanded" [class.pi-chevron-up]="!company.expanded">
+              </i>
+            </td>
+            <td>
+              {{ company.company_name }}
+            </td>
+            <td>{{ company.estimation_total | currency : "JPY" }}</td>
+            <td>{{ company.invoice_total | currency : "JPY" }}</td>
+          </tr>
+          <ng-container *ngIf="company.expanded">
+            <ng-container *ngIf="company.stores?.length; else noChildren">
+              <tr *ngFor="let childRow of company.stores" [style.cursor]="'default'">
+                <td></td>
+                <td>{{ childRow.store_name }}</td>
+                <td>{{ childRow.estimation_total | currency : "JPY" }}</td>
+                <td>{{ childRow.invoice_total | currency : "JPY" }}</td>
+              </tr>
+            </ng-container>
+            <ng-template #noChildren>
+              <tr>
+                <td colspan="3" style="padding-left: 2rem; color: gray;">
+                  No children available.
+                </td>
+              </tr>
+            </ng-template>
+          </ng-container>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="filter-container">
+      <form [formGroup]="registrationForm">
+        <div class="input-group-column">
+          <label for="spanish">対象年</label>
+          <div class="fullwidth">
+            <p-dropdown styleClass="fullwidth" [options]="years" placeholder="-未選択-" formControlName="year"></p-dropdown>
+          </div>
+        </div>
+        <div class="input-group-column" style="margin-top: 5px;">
+          <label for="monthpicker">対象月</label>
+          <div class="fullwidth">
+            <p-dropdown styleClass="fullwidth" [options]="months" placeholder="-未選択-" formControlName="month"></p-dropdown>
+          </div>
+        </div>
+        <button style="margin-top: 50px;" pButton class="fullwidth" type="button" icon="pi pi-search"
+          label="検索" (click)="searchData()" ></button>
+      </form>
+      <!-- <div class="p-4">
+        <label>出発地：</label>
+        <input [(ngModel)]="origin" class="p-inputtext" placeholder="例：東京駅" />
+        <br />
+        <label>目的地：</label>
+        <input [(ngModel)]="destination" class="p-inputtext" placeholder="例：九段下駅" />
+        <br />
+        <button (click)="searchCommute()" class="p-button p-mt-2">通勤時間を検索</button>
+      
+        <div *ngIf="result">
+          <p><strong>通勤時間：</strong>{{ result.duration }}</p>
+          <p><strong>出発：</strong>{{ result.departure_time }}</p>
+          <p><strong>到着：</strong>{{ result.arrival_time }}</p>
+          <p><strong>出発地：</strong>{{ result.start_address }}</p>
+          <p><strong>目的地：</strong>{{ result.end_address }}</p>
+        </div>
+      
+        <div *ngIf="error" class="p-error">{{ error }}</div>
+      </div> -->
+    </div>
+  </div>
+</div>
+<div class="actions-section">
+  <div fxFlex="50" class="fullwidth">
+    <p-panel header="見積処理" class="topbar">
+      <p>案件マスタから情報の抽出を行い、</p>
+      <p>見積書を自動作成します。</p>
+      <p style="font-size: smaller;">※案件情報が確定後に実行するようにしてください。</p>
+      <div class="button-container">
+        <button pButton type="button" label="見積処理へ" (click)="setPageShow01()" class="button-width"></button>
+      </div>
+    </p-panel>
+  </div>
+  <div fxFlex="50" class="fullwidth">
+    <p-panel header="請求処理" class="topbar">
+      <p>見積情報から請求書を発行します。</p>
+      <p style="font-size: smaller;">※実績確定後に実行するようにしてください。</p>
+      <p>&nbsp;</p>
+      <div class="button-container">
+        <button pButton type="button" label="請求処理へ" (click)="setPageShow02()" class="button-width"></button>
+      </div>
+    </p-panel>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="card input-card flex flex-column gap-3" style="height: 86vh;">
+    <div class="actions-section">
+        <p class="s-title">ユーザ一覧</p>
+        <button pButton [disabled]="!isAdmin" type="button" icon="pi pi-plus" label="新規登録" (click)="add()"></button>
+    </div>
+
+    <div class="table-container">
+        <p-table [value]="users" responsiveLayout="scroll" class="custom-table" scrollHeight="65vh">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>姓</th>
+                    <th>名</th>
+                    <th>メールアドレス</th>
+                    <th>パスワード</th>
+                    <th>権限</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+                <tr>
+                    <td>{{ user.user_name_first }}</td>
+                    <td>{{ user.user_name_last }}</td>
+                    <td>{{ user.user_mail }}</td>
+                    <td>
+                        <input type="password" pInputText [(ngModel)]="user.password" readonly
+                            *ngIf="!user.showPassword" />
+                        <input type="text" pInputText [(ngModel)]="user.password" readonly *ngIf="user.showPassword" />
+                        <i style="padding-left: 10px;" (click)="togglePassword(user)" class="pi"
+                            [ngClass]="{'pi-eye': !user.showPassword, 'pi-eye-slash': user.showPassword}"></i>
+                    </td>
+                    <td>{{ displayRoe(user.role) }}</td>
+                    <td>
+                        <button pButton [disabled]="!(isAdmin || user.user_id == loginUserId)" type="button" icon="pi pi-pencil" class="edit-button"
+                            (click)="edit(user)"></button>
+
+                        <button pButton [disabled]="!isAdmin" type="button" severity="danger" icon="pi pi-trash" class="delete-button"
+                            style="margin-left:15px" (click)="delete(user, $event)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<p-toast />
+<p-confirmPopup />

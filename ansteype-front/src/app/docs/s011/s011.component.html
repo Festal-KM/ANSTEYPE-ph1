@@ -1,0 +1,84 @@
+<div class="card input-card flex flex-column gap-3">
+    <form [formGroup]="s011Form">
+        <app-error-messages></app-error-messages>
+        
+        <div class="input-group-column">
+            <label>会社名：</label>
+            <input pInputText formControlName="company_name" class="fullwidth" formControlLabel="会社名" />
+        </div>
+
+        <div class="input-group-column form-row">
+            <label>会社ロゴ：</label>
+            <div class="flex fullwidth">
+                <div style="flex: 0 0 50%;max-width: 50%;margin-right: 20px;height: 200px;display: flex; flex-direction: column; align-items: center;">
+                    <img *ngIf="companyLogoUrl" [src]="companyLogoUrl" alt="会社ロゴ" style="width: 30%; height: auto;" />
+                </div>
+                <div style="flex: 0 0 50%;display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <button pButton [disabled]="!isAdmin" label="削除" icon="pi pi-trash" class="p-button-danger" (click)="removeLogo()"></button>
+                    <button pButton [disabled]="!isAdmin" label="変更" icon="pi pi-upload" (click)="showDialog()"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group-column form-row">
+            <label>会社住所：</label>
+            <input pInputText formControlName="address_1" formControlLabel="会社住所の郵便番号" />
+            <input pInputText class="fullwidth" formControlName="address_2" formControlLabel="会社住所" />
+        </div>
+
+        <div *ngIf="isAdmin" class="form-row">
+            <label>口座情報：</label>
+            <div class="flex gap-3">
+                <div class="bank-form-group">
+                    <label style="flex: 0 0 12%;width: 100% !important;">銀行名：</label>
+                    <input style="flex: 0 0 88%;width: 100% !important;" pInputText formControlName="bank_name" formControlLabel="銀行名"/>
+                </div>
+                <div class="bank-form-group fullwidth">
+                    <label class="bank-form-label">支店名：</label>
+                    <input pInputText class="bank-form-input" formControlName="branch_name" formControlLabel="支店名"/>
+                </div>
+            </div>
+            <div class="flex gap-3 form-row">
+                <div class="bank-form-group fullwidth">
+                    <label style="flex: 0 0 12%;width: 100% !important;">振込名義：</label>
+                    <input style="flex: 0 0 88%;width: 100% !important;" pInputText formControlName="account_name" formControlLabel="振込名義"/>
+                </div>
+                <div class="bank-form-group">
+                    <label class="bank-form-label">支店コード：</label>
+                    <input pInputText class="bank-form-input" formControlName="branch_code" formControlLabel="支店コード" />
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isAdmin" fxLayout="row" fxLayoutAlign="start center" class="form-row" style="display: flex; align-items: center;">
+            <p-radioButton value="1" label="普通" formControlName="account_flag"></p-radioButton>
+            <p-radioButton [style]="{'margin-left': '10px'}" value="2" label="当座" formControlName="account_flag"></p-radioButton>
+            <input pInputText style="margin-left: 10px" formControlName="account_number" formControlLabel="口座番号" />
+        </div>
+
+        <div class="form-row">
+            <label>インボイス番号：</label>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <span>T -</span>
+                <input pInputText style="width: 98%;" formControlName="invoice_number" formControlLabel="インボイス番号"/>
+            </div>
+        </div>
+
+        <div class="input-group-column form-row">
+            <label>消費税率：</label>
+            <div fxLayout="row">
+                <input pInputText formControlName="consumption_tax_rate" formControlLabel="消費税率" />
+                <span>%</span>
+            </div>
+        </div>
+
+        <div class="actions-section-end form-row">
+            <button pButton [disabled]="!isAdmin" type="button" label="更新" icon="pi pi-refresh" (click)="save()"></button>
+        </div>
+    </form>
+</div>
+
+
+<p-dialog header="会社ロゴアップロード" [(visible)]="displayDialog"  [modal]="true" [closable]="true" [responsive]="true"
+    [style]="{ width: '50vw' }">
+    <app-p011 (fileUploaded)="handleFileUpload($event)"></app-p011>
+</p-dialog>

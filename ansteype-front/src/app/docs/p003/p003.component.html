@@ -1,0 +1,18 @@
+
+  <div class="p-fluid">
+    <div>
+      <label fxFlex="20%">件名：</label>
+      <input [(ngModel)]="temporaryName" pInputText />
+    </div>
+  </div>
+  <div style="width: 100%; margin-top:20px" class="flex gap-3">
+    <div class="p-field" style="width: 30rem;">
+    </div>
+    <div class="p-field" style="width: 30rem;">
+    </div>
+    <div class="p-field" style="width: 30rem;">
+    </div>
+      <div class="p-field" style="width: 20rem;">
+        <button pButton type="button" label="一時保存" style="width: 100%;"(click)="onSave()"></button>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="container" fxLayout="column" fxLayoutGap="1rem">
+    <!-- 見積送付先 Section -->
+    <div>
+        <h4>見積送付先///////：</h4>
+
+        <!-- To 担当者名 -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+            <label fxFlex="20%">To 担当者名：</label>
+            <input pInputText fxFlex="30%" placeholder="入力">
+            <input pInputText fxFlex="30%" placeholder="入力">
+        </div>
+
+        <!-- To アドレス -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+            <label fxFlex="20%">To アドレス：</label>
+            <input pInputText fxFlex="70%" placeholder="xxx@example.com">
+            <button pButton type="button" icon="pi pi-plus" class="circle-btn"></button>
+        </div>
+
+        <!-- Cc 不要 -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+            <p-checkbox></p-checkbox>
+            <label>Cc 不要</label>
+        </div>
+
+        <!-- Cc 担当者名 -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+            <label fxFlex="20%">Cc 担当者名：</label>
+            <input pInputText fxFlex="30%" placeholder="入力">
+            <input pInputText fxFlex="30%" placeholder="入力">
+        </div>
+
+        <!-- Cc アドレス -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+            <label fxFlex="20%">Cc アドレス：</label>
+            <input pInputText fxFlex="70%" placeholder="yyy@example.com">
+            <button pButton type="button" icon="pi pi-plus" class="circle-btn"></button>
+        </div>
+    </div>
+
+    <!-- 請求送付先 Section -->
+    <div>
+        <h4>請求送付先：</h4>
+
+        <!-- Checkbox -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+            <p-checkbox></p-checkbox>
+            <label>見積送付先と同じ</label>
+        </div>
+
+        <!-- To 担当者名 -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+            <label fxFlex="20%">To 担当者名：</label>
+            <input pInputText fxFlex="30%" placeholder="入力">
+            <input pInputText fxFlex="30%" placeholder="入力">
+        </div>
+
+        <!-- To アドレス -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+            <label fxFlex="20%">To アドレス：</label>
+            <input pInputText fxFlex="70%" placeholder="zzz@example.com">
+            <button pButton type="button" icon="pi pi-plus" class="circle-btn"></button>
+        </div>
+    </div>
+
+    <button pButton type="button" label="更新" icon="pi pi-check" style="margin-top: 1rem;" (click)="updateStoreData()"></button>
+</div>

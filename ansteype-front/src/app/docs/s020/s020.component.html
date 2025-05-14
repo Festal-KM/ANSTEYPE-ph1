@@ -1,0 +1,137 @@
+<div class="card input-card flex flex-column gap-3" style="height: 85vh; overflow-y: auto;">
+    <div fxLayout="row">
+        <div class="actions-section-end">
+            <button pButton type="button" icon="pi pi-arrow-left" label="戻る" class="back-button"
+                (click)="goBack()"></button>
+        </div>
+    </div>
+
+    <form [formGroup]="s020Form">
+        <app-error-messages></app-error-messages>
+
+        <div class="flex">
+            <!-- File Upload Section -->
+            <div class="upload-section">
+                <div class="upload-box" pDroppable (dragover)="onDragOver($event)" (drop)="onFileDrop($event)">
+                    <div>
+                        <i class="pi pi-upload"></i>
+                        <p>請求書をここにドロップ</p>
+                        <button pButton type="button" label="ファイル追加" (click)="fileInput.click()"></button>
+                        <input type="file" #fileInput (change)="onFileChange($event)" hidden />
+                        <small>*ファイルサイズの上限は20MBです。</small>
+                    </div>
+
+                    <div class="file-info">
+                        <ng-container *ngIf="file">
+                            <span>{{ file.name }} ({{ file.size / 1024 | number:'1.0-2' }} KB)</span>
+                            <button type="button" class="remove-button" (click)="removeFile()">削除</button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="upload-section">
+                <div pDroppable [pDraggable]="'true'" class="upload-box">
+                    <p-fileUpload 
+                        name="file" 
+                        customUpload="true"
+                        (uploadHandler)="onFileUpload($event)"
+                        (onSelect)="onFileSelect($event)"
+                        [maxFileSize]="20971520" 
+                        chooseLabel="ファイル追加"
+                        dragDropMessage="請求書をここにドロップ"
+                        [auto]="false">
+                    </p-fileUpload>
+                    <p>*ファイルサイズの上限は20MBです。</p>
+                </div>
+            </div> -->
+
+            <div fxFlex="60" class="fullwidth flex flex-column gap-3">
+                <!-- Invoice Details -->
+                <div class="flex" fxLayout="row" fxLayoutAlign="center center"
+                    style="display: flex; align-items: center;">
+                    <label class="row-flex-1 text-right">件名:</label>
+                    <input class="row-flex-2" pInputText formControlName="subject" formControlLabel="件名" />
+                </div>
+                <div class="flex" fxLayout="row" fxLayoutAlign="center center"
+                    style="display: flex; align-items: center;">
+                    <label class="row-flex-1 text-right">代理店名:</label>
+                    <div class="row-flex-2 fullwidth">
+                        <p-dropdown styleClass="fullwidth" [options]="agents" placeholder="-未選択-" formControlName="agent" formControlLabel="代理店名" optionLabel="label"
+                            (onChange)="onAgentChange($event.value)"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex" fxLayout="row" fxLayoutAlign="center center"
+                    style="display: flex; align-items: center;">
+                    <label class="row-flex-1 text-right">請求総額（税込）:</label>
+                    <p-inputNumber class="row-flex-2 fullwidth-input" formControlName="totalAmount"
+                        formControlLabel="請求総額（税込）" mode="currency" currency="JPY" [maxFractionDigits]="0"></p-inputNumber>
+                </div>
+                <div fxLayout="row">
+                    <label>品名:</label>
+                    <div style="overflow-x: auto; max-width: 100%;"> <!-- 允许横向滚动 -->
+                        <p-table [tableStyle]="{'table-layout': 'fixed', 'width': '150%'}" [value]="products.controls" [scrollable]="true" scrollHeight="40vh"  class="custom-table">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 10%;">開催日</th>
+                                    <th style="width: 15%;">店舗</th>
+                                    <th style="width: 20%;">品目名</th>
+                                    <th style="width: 10%;">単価</th>
+                                    <th style="width: 10%;">数（回）</th>
+                                    <th style="width: 10%;">金額</th>
+                                    <th style="width: 10%;">非課税</th>
+                                    <th style="width: 15%;"></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product let-i="rowIndex">
+                                <tr [formGroup]="product">
+                                    <td>
+                                        <input pInputText formControlName="implementationSchedule" class="fullwidth" formControlLabel="開催日">
+                                    </td>
+                                    <td>
+                                        <div class="fullwidth">
+                                            <p-dropdown styleClass="fullwidth" [options]="stores" formControlName="store" appendTo="body" formControlLabel="店舗" optionLabel="label"
+                                            placeholder="-未選択-"></p-dropdown>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input pInputText formControlName="itemName" class="fullwidth" formControlLabel="品目名">
+                                    </td>
+                                    <td>
+                                        <p-inputNumber class="fullwidth-input" formControlName="unitPrice" formControlLabel="単価" (onInput)="calculateAmount(i)" mode="currency" currency="JPY" [maxFractionDigits]="0"></p-inputNumber>
+                                    </td>
+                                    <td>
+                                        <p-inputNumber class="fullwidth-input" formControlName="count" formControlLabel="数（回）" (onInput)="calculateAmount(i)" [maxFractionDigits]="0"></p-inputNumber>
+                                    </td>
+                                    <td>
+                                        <p-inputNumber readonly="true" class="fullwidth-input" formControlName="amount" formControlLabel="金額" mode="currency" currency="JPY" [maxFractionDigits]="0"></p-inputNumber>
+                                    </td>
+                                    <td>
+                                        <p-checkbox binary="true" (onChange)="onNoTaxClick()" class="fullwidth-input" formControlName="noTax"></p-checkbox>
+                                    </td>
+                                    <td>
+                                        <div fxLayout="row" fxLayoutAlign="center center">
+                                            <button pButton *ngIf="getProductLength() - 1 === i" icon="pi pi-plus" style="margin-right: 10px;"
+                                                (click)="addProduct()"></button>
+                                            <button pButton *ngIf="i < getProductLength() - 1 || getProductLength() > 1" icon="pi pi-minus" (click)="removeProduct(i)"></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Footer -->
+    <div class="footer actions-section-end">
+        <button pButton type="button" label="作成実行" icon="pi pi-save" (click)="executeCreation()"></button>
+        <button pButton type="button" label="記録" icon="pi pi-save" (click)="showDialog()"></button>
+    </div>
+</div>
+
+<p-dialog header="確認" [(visible)]="displayDialog" [modal]="true" [closable]="true" [responsive]="true"
+    [style]="{ width: '50vw' }">
+    <app-p020 [dto]="s020Dto" (saveClicked)="onSave()"></app-p020>
+</p-dialog>

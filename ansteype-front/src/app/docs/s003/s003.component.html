@@ -1,0 +1,415 @@
+<div class="card input-card flex flex-column gap-3" style="height: 91%;overflow: auto;" >
+  <!-- Question Input -->
+  <div  class="search-container">
+    <form [formGroup]="registrationForm">
+      <p-toast ></p-toast>
+
+      <div class=" flex gap-3" >
+      <div  class="p-field dropdown-width">
+        <label for="inputText">対象年</label>
+        <p-dropdown styleClass="fullwidth" appendTo="body" [options]="year_list" formControlName="year" placeholder="-未選択-"></p-dropdown>
+      </div>
+
+        <div class="p-field dropdown-width" >
+          <label for="inputText">対象月</label>
+          <p-dropdown styleClass="fullwidth" appendTo="body" [options]="months" formControlName="month" placeholder="-未選択-"></p-dropdown>
+        </div>
+        <div class="p-field dropdown-width" >
+          <label for="inputText">対象週</label>
+          <p-dropdown styleClass="fullwidth" appendTo="body" [options]="weeks" formControlName="week"placeholder="-未選択-"></p-dropdown>
+        </div>
+        <div class="p-field" style="width: 15rem;padding-top :25px">
+          <button pButton type="button" label="案件情報取得"    (click)="onSeachMast()" style="width: 100%;"></button>
+        </div>
+      </div>
+      <div class=" flex gap-3" style="padding-top: 10px;">
+        <div class="p-field dropdown-width">
+          <label for="inputText">代理店:</label>
+          <p-dropdown styleClass="fullwidth" appendTo="body" [options]="agents" formControlName="agency_id" placeholder="-未選択-" (onChange)="onAgencyChange($event)"></p-dropdown>
+        </div>
+
+        <div class="p-field" style="width: 15rem;padding-top :25px">
+          <button pButton type="button" label="絞り込み"  style="width: 100%;" (click)="filterData()" ></button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+    <div class="table-container">
+      <div class="header-container">
+        <a href="#" class="select-all-link" (click)="toggleSelectAll($event)" >全選択</a>
+      </div>
+      <p-table
+      [value]="products"
+      [scrollable]="true"
+      scrollHeight="46vh"
+      scrollWidth="100%"
+      [sortMode]="'single'"
+      [selectionMode]="'single'"
+      [(selection)]="selectedRow"
+    >
+      <ng-template pTemplate="header">
+        <tr >
+          <th style="min-width: 100px;padding-left: 30px;">
+            対象
+
+          </th>
+          <th style="min-width: 100px;">
+            <button pButton type="button"  (click)="mergeRows()" label="統合"></button>
+
+          </th>
+          <th style="min-width: 100px;">
+            <button pButton type="button" (click)="deleteSelectedChildren()" label="月払"></button>
+
+            </th>
+          <th style="min-width: 250px;">代理店名</th>
+          <th style="min-width: 250px;">開催店舗</th>
+          <th style="min-width: 250px;">開催日</th>
+          <th style="min-width: 350px;">イベント実施場所</th>
+          <th style="min-width: 250px;">オーダー</th>
+          <th style="min-width: 350px;"></th>
+          <th style="min-width: 300px;">品目名</th>
+          <th style="min-width: 150px;">交通費分け</th>
+          <th style="min-width: 150px;">場所代分け</th>
+          <th style="min-width: 150px;">非課税</th>
+          <th style="min-width: 150px;"></th>
+        </tr>
+      </ng-template>
+    
+      <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+        <tr *ngFor="let child of product.children; let childIndex = index" (click)="onRowSelect(product, child, childIndex)">
+          <td class="center-content">
+            <p-checkbox [(ngModel)]="child.is_del" binary="true"  ></p-checkbox></td>
+          
+          <td class="center-content">
+            <p-checkbox 
+              [(ngModel)]="child.integration_selected"
+              (onChange)="onCheckboxChange($event, product)"
+              binary="true"  ></p-checkbox>
+          </td>
+
+          <td class="center-content"><p-checkbox         [(ngModel)]="child.monthly_payment_selected"
+            binary="true"  ></p-checkbox></td>
+          <!-- 父级数据单元格 -->
+          <td *ngIf="childIndex === 0">
+            <ng-container *ngIf="editingCell !== getCellKey(rowIndex, 0,'agency_name')">
+              <span>{{ product.agency_name }}</span>
+              <div *ngIf=" child.isEditable" style="float: right;" >
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                
+
+                (click)="editCell(getCellKey(rowIndex, 0,'agency_name'))"
+              ></button></div>
+            </ng-container>
+            <ng-container *ngIf="editingCell === getCellKey(rowIndex, 0,'agency_name') && editingCell !== null">
+              <input
+                type="text"
+                #inputField
+                pInputText
+                [(ngModel)]="product.agency_name"
+                [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'agency_name')"
+                (blur)="finishEdit()"
+              />
+            </ng-container>
+          </td>
+          <td *ngIf="childIndex != 0"></td>
+          <td *ngIf="childIndex != 0"></td>
+          <!-- 子级数据单元格 -->
+          <!-- 子级数据单元格 -->
+          <td *ngIf="childIndex === 0">
+            <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'participating_store')">
+              <span>{{ product.participating_store }}</span>
+              <div *ngIf=" child.isEditable" style="float: right;" >
+
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                
+
+                (click)="editCell(getCellKey(rowIndex, childIndex, 'participating_store'))"
+              ></button></div>
+            </ng-container>
+            <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'participating_store')">
+              <input
+                type="text"
+                #inputField
+                pInputText
+                [(ngModel)]="product.participating_store"
+                [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'participating_store')"
+                (blur)="finishEdit()"
+              />
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'held_date')">
+              <span>{{ child.held_date }}</span>
+              <div *ngIf=" child.isEditable" style="float: right;" >
+
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                
+                (click)="editCell(getCellKey(rowIndex, childIndex, 'held_date'))"
+              ></button></div>
+            </ng-container>
+            <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'held_date')">
+              <input
+                type="text"
+                pInputText
+                #inputField
+                [(ngModel)]="child.held_date"
+                [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'held_date')"
+                (blur)="finishEdit()"
+              />
+            </ng-container>
+          </td>
+    
+          <td>
+            <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'event_location')">
+              <span>{{ child.event_location }}</span>
+              <div *ngIf=" child.isEditable" style="float: right;" >
+
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                
+                (click)="editCell(getCellKey(rowIndex, childIndex, 'event_location'))"
+              ></button></div>
+            </ng-container>
+            <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'event_location')">
+              <input
+                type="text"
+                pInputText
+                [(ngModel)]="child.event_location"
+                #inputField
+                [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'event_location')"
+                (blur)="finishEdit()"
+              />
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'order')">
+              <span>{{ child.order }}</span>
+              <div *ngIf=" child.isEditable" style="float: right;" >
+
+              <button
+                pButton
+                type="button"
+                
+                icon="pi pi-pencil"
+                (click)="editCell(getCellKey(rowIndex, childIndex, 'order'))"
+              ></button></div>
+            </ng-container>
+            <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'order')">
+              <input
+                type="text"
+                pInputText
+                [(ngModel)]="child.order"
+                #inputField
+                [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'order')"
+                (blur)="finishEdit()"
+              />
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="child.type_flg == '0'">
+
+              <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'number_people')">
+                <span>{{ child.number_people }}</span>
+                <div *ngIf=" child.isEditable" style="float: right;" >
+
+                <button
+                  pButton
+                  type="button"
+                  
+                  icon="pi pi-pencil"
+                  (click)="editCell(getCellKey(rowIndex, childIndex, 'number_people'))"
+                ></button></div>
+              </ng-container>
+              <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'number_people')">
+                <input
+                  type="text"
+                  pInputText
+                  [(ngModel)]="child.number_people"
+                  #inputField
+                  [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'number_people')"
+                  (input)="checkInput($event, child, 'number_people')"
+                  (blur)="finishEdit()"
+                />
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="child.type_flg == '1'">
+
+              <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'event_venue_fee')">
+                <input
+  
+                type="text"
+                pInputText
+                #inputField
+                [value]="formatCurrency(child.event_venue_fee)" 
+                [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'event_venue_fee')"
+                readonly
+              />
+                <div *ngIf=" child.isEditable" style="float: right;" >
+  
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  style="margin-top: 4px;"
+
+                  (click)="editCell(getCellKey(rowIndex, childIndex, 'event_venue_fee'))"
+                ></button></div>
+              </ng-container>
+              <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'event_venue_fee')">
+                <input
+                  type="text"
+                  pInputText
+                  [(ngModel)]="child.event_venue_fee"
+                  (input)="checkInput($event, child, 'event_venue_fee')"
+
+                  #inputField
+                  [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'event_venue_fee')"
+                  (blur)="finishEdit()"
+                />
+              </ng-container>
+            </ng-container>
+              <ng-container *ngIf="child.type_flg == '2'">
+
+                <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'transportation_fee')">
+                  <input
+    
+                  type="text"
+                  pInputText
+                  (input)="checkInput($event, child, 'transportation_fee')"
+                  #inputField
+                  [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'transportation_fee')"
+                  [value]="formatCurrency(child.transportation_fee)" 
+
+                  readonly
+                />
+                  <div *ngIf=" child.isEditable" style="float: right;" >
+    
+                  <button
+                    pButton
+                    type="button"
+                    icon="pi pi-pencil"
+                    style="margin-top: 4px;"
+                    (click)="editCell(getCellKey(rowIndex, childIndex, 'transportation_fee'))"
+                  ></button></div>
+                </ng-container>
+                <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'transportation_fee')">
+                  <input
+                    type="text"
+                    pInputText
+                    [(ngModel)]="child.transportation_fee"
+                    (input)="checkInput($event, child, 'transportation_fee')"
+                    #inputField
+                    [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'transportation_fee')"
+                    (blur)="finishEdit()"
+                  />
+                </ng-container>
+              </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'item_name')">
+              <input
+
+              type="text"
+              pInputText
+              [(ngModel)]="child.item_name"
+              #inputField
+              placeholder="-デフォルト-"
+              [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'item_name')"
+              readonly
+            />
+              <div *ngIf=" child.isEditable" style="float: right;" >
+
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                style="margin-top: 4px;"
+                (click)="editCell(getCellKey(rowIndex, childIndex, 'item_name'))"
+              ></button></div>
+            </ng-container>
+            <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'item_name')">
+              <input
+                type="text"
+                pInputText
+                [(ngModel)]="child.item_name"
+                #inputField
+                [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'item_name')"
+                (blur)="finishEdit()"
+              />
+            </ng-container>
+          </td>
+          <td class="center-content">
+            <p-checkbox [(ngModel)]="child.page_division_1_selected"
+                        binary="true" ></p-checkbox>
+          </td>
+
+          <td class="center-content">
+            <p-checkbox 
+              [(ngModel)]="child.page_division_2_selected"
+              binary="true" ></p-checkbox>
+          </td>
+          <td class="center-content">
+            <p-checkbox [(ngModel)]="child.tax_free_selected"
+                        binary="true"></p-checkbox>
+          </td>
+          <!-- 其他字段同理 -->
+          <td>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-plus"
+              style="margin-right: 10px;"
+              (click)="addRow($event,product, child)"
+            ></button>
+            <button pButton type="button" icon="pi pi-minus" (click)="deleteRow(child, product)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    
+    </div>
+        <div style="width: 100%;" class="flex gap-3">
+
+          <div class="p-field" style="width: 20rem;">
+              
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            <button pButton type="button" icon="pi pi-arrow-left" style="width: 100%;" label="戻る" class="back-button"(click)="goBack()"></button>
+          </div>
+          <div class="p-field" style="width: 20rem;">
+              <button pButton type="button" label="作成実行" style="width: 100%;" (click)="create_pdf_execute()"></button>
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            <button pButton type="button" label="一時保存" style="width: 100%;"(click)="onTemporarySave()"></button>
+        </div>
+      </div>
+  </div>
+
+  <p-dialog [(visible)]="displayDialog" [modal]="true" [closable]="true" [responsive]="true" [style]="{ width: '40vw',height:'25vh' }">
+    <app-p003 (save)="temporarySave($event)" [temporaryName]="temporaryName"></app-p003>
+</p-dialog>
+
+<!-- Google OAuth 认证弹窗 -->
+<p-dialog [(visible)]="displayDialogOAuth" [modal]="true" [closable]="true" [responsive]="true" [style]="{ width: '40vw', height: '25vh' }">
+    <div class="p-d-flex p-flex-column p-ai-center">
+        <h3>Google OAuth 認証</h3>
+        <p>ansteype-seikyu&#64;ansteype.co.jpのGoogle の認証が無効になりました。ボタンをクリックして再認証してください。</p>
+      
+        <p-button label="Google 認証" icon="pi pi-google" (click)="authenticate()"></p-button>
+    </div>
+</p-dialog>

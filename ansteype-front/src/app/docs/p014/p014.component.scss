@@ -1,0 +1,22 @@
+.row-gap{
+    margin: 5px;
+}
+
+.data-flex{
+    flex:0 0 45%;
+    display: flex;
+    width: 100% !important;
+    margin-right: 2px;
+}
+
+span {
+    white-space: nowrap;
+}
+
+::ng-deep .fullwidth-input > span {
+    width: 100% !important;
+}
+
+::ng-deep .fullwidth-input input {
+    width: 100% !important;
+}

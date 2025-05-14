@@ -1,0 +1,92 @@
+<div class="card input-card" style="height: 86vh;">
+    <div class="actions-section">
+        <p class="s-title">{{ company.company_name }} {{ year }}年{{ month }}月</p>
+        <button pButton type="button" icon="pi pi-arrow-left" label="戻る" class="back-button"
+            (click)="goBack()"></button>
+    </div>
+    <div class="flex">
+        <div class="main-container">
+            <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)" class="custom-tab">
+                <p-tabPanel header="見積">
+                    <p-table [value]="displayedData" responsiveLayout="scroll" class="custom-table" scrollHeight="60vh" scrollWidth="100%">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 16%;"></th>
+                                <th style="width: 14%;">1週目</th>
+                                <th style="width: 14%;">2週目</th>
+                                <th style="width: 14%;">3週目</th>
+                                <th style="width: 14%;">4週目</th>
+                                <th style="width: 14%;">5週目</th>
+                                <th style="width: 14%;">月額合計</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData>
+                            <tr>
+                                <td>{{ rowData.store_name }}</td>
+                                <td>{{ rowData.week1 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week2 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week3 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week4 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week5 | currency : "JPY" }}</td>
+                                <td>{{ rowData.month | currency : "JPY" }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+                <p-tabPanel header="請求">
+                    <p-table [value]="displayedData" responsiveLayout="scroll" class="custom-table" scrollWidth="100%">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 16%;"></th>
+                                <th style="width: 14%;">1週目</th>
+                                <th style="width: 14%;">2週目</th>
+                                <th style="width: 14%;">3週目</th>
+                                <th style="width: 14%;">4週目</th>
+                                <th style="width: 14%;">5週目</th>
+                                <th style="width: 14%;">月額合計</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData>
+                            <tr>
+                                <td>{{ rowData.store_name }}</td>
+                                <td>{{ rowData.week1 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week2 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week3 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week4 | currency : "JPY" }}</td>
+                                <td>{{ rowData.week5 | currency : "JPY" }}</td>
+                                <td>{{ rowData.month | currency : "JPY" }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+
+        <!-- Search Filters -->
+        <div class="filter-container">
+            <form [formGroup]="registrationForm">
+                <div class="input-group-column">
+                    <label>代理店名</label>
+                    <div class="fullwidth">
+                        <p-dropdown styleClass="fullwidth" [options]="agents" placeholder="-未選択-" formControlName="agency" optionLabel="label"></p-dropdown>
+                    </div>
+                </div>
+                <div class="input-group-column" style="margin-top: 5px;">
+                    <label for="spanish">対象年</label>
+                    <div class="fullwidth">
+                        <p-dropdown styleClass="fullwidth" [options]="years" placeholder="-未選択-" formControlName="year"></p-dropdown>
+                    </div>
+                </div>
+                <div class="input-group-column" style="margin-top: 5px;">
+                    <label for="monthpicker">対象月</label>
+                    <div class="fullwidth">
+                        <p-dropdown styleClass="fullwidth" [options]="months" placeholder="-未選択-" formControlName="month"></p-dropdown>
+                    </div>
+                </div>
+                <div style="margin-top: 50px;">
+                    <button pButton class="fullwidth" type="button" icon="pi pi-search" label="検索" (click)="search()"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

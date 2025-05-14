@@ -1,0 +1,33 @@
+<div class="card input-card flex flex-column gap-3">
+    <div fxLayout="row">
+        <div class="actions-section-end">
+            <button pButton type="button" icon="pi pi-arrow-left" label="戻る" class="back-button"
+                (click)="goBack()"></button>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <p-table [value]="savedItems" responsiveLayout="scroll" class="table">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 30%;">日時</th>
+                <th style="width: 50%;">名称</th>
+                <th style="width: 20%;"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+            <tr>
+                <td>{{ item.exe_date }}</td>
+                <td>{{ item.exe_name }}</td>
+                <td>
+                    <div style="display: flex; gap: 8px;">
+                        <button pButton type="button" label="再開" icon="pi pi-play" class="p-button-sm p-button-secondary"
+                        (click)="onResume(item)"></button>
+                        <button pButton type="button" label="削除" icon="pi pi-trash" class="p-button-sm p-button-danger"
+                            (click)="onDelete(item)"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

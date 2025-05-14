@@ -1,0 +1,194 @@
+<div class="card input-card flex flex-column" >
+
+    <!-- Question Input -->
+    <div  style="width: 100%;">
+      <div class="table-container">
+        <p-table 
+        [value]="products" 
+        [scrollable]="true"
+        scrollHeight="10vh"
+        scrollWidth="100%" 
+        [sortMode]="'single'"
+        [selectionMode]="'single'"
+        [(selection)]="selectedRow"
+      >
+        <!-- 表头 -->
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 20px;"></th>
+            <th style="width: 150px;">送付先</th>
+            <th style="width: 150px;">店舗アドレス設定</th>
+            <th style="width: 150px;">代理店名</th>
+            <th style="width: 350px;">件名</th>
+            <th style="width: 100px;">金額</th>
+          </tr>
+        </ng-template>
+      
+        <!-- 表体 -->
+        <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+          <!-- 父级行 -->
+          <tr 
+            [ngClass]="{
+              'row-hover': hoveredRowIndex === rowIndex,
+              'row-selected': selectedRowIndex === rowIndex
+            }"
+            (mouseenter)="hoveredRowIndex = rowIndex"
+            (mouseleave)="hoveredRowIndex = null"
+            (click)="toggleExpand(product, rowIndex, $event)"
+          >
+            <td>
+              <i class="pi" 
+                 
+                 [class.pi-chevron-down]="!product.isExpanded" 
+                 [class.pi-chevron-up]="product.isExpanded">
+              </i>
+            </td>
+            <td>{{ product.shipping_address_all }}</td>
+            <td>{{ product.store_address_settings_all }}</td>
+            <td>{{ product.agency_name }}</td>
+            <td>{{ getSubjectName(product.subject_name)  }}</td>
+            <td>{{ product.amount | currency : "JPY"}}</td>
+          </tr>
+      
+          <!-- 子级行（仅在父级展开时显示） -->
+  
+          <ng-container *ngIf="product.isExpanded">
+            <!-- 子级 PDF 数据 -->
+            <ng-container *ngFor="let child of product.children; let childIndex = index">
+              <ng-container *ngFor="let pdf of child.pdf; let pdfIndex = index">
+                <tr 
+                  [ngClass]="{
+                    'row-hover': hoveredRowIndex === (rowIndex + '-' + childIndex + '-' + pdfIndex),
+                    'row-selected': selectedRowIndex === (rowIndex + '-' + childIndex + '-' + pdfIndex)
+                  }"
+                  (mouseenter)="hoveredRowIndex = rowIndex + '-' + childIndex + '-' + pdfIndex"
+                  (mouseleave)="hoveredRowIndex = null"
+                  (click)="selectRow(rowIndex + '-' + childIndex + '-' + pdfIndex, pdf, child, product, rowIndex, childIndex)"
+                >
+                  <td></td>
+                  <td ></td>
+                  <td ></td>
+                  <td></td>
+                  <td>{{ child.subject_name }}</td>
+                  <td>{{ pdf.pdf_amount | currency : "JPY"}}</td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </p-table>
+          </div>
+          <div style="width: 100%; height: 65%;margin-top: 5px;"
+            class="shadow-box-1 flex" 
+            fxLayout="row" fxLayoutGap="10px">
+            <div class="pdf-viewer-container" fxFlex="column" style="height: 66%;width:35%" (dblclick)="openPdfViewer()">
+              <div >プレビュー
+            </div>
+            <ngx-extended-pdf-viewer
+            [src]="pdfSrc"
+            [showToolbar]="false"
+            [pageViewMode]="'single'"
+            [showSpreadButton]="false"
+            [showPagingButtons]="false"
+            [handTool]="false"
+            [showSidebarButton]="false"
+
+            [page]="1"
+            [height]="'50vh'"
+            [minHeight]="'40vh'">
+            </ngx-extended-pdf-viewer>
+          
+          </div>
+          <div  style="margin-left: 50px;width: 80%; height: 45vh;overflow: auto !important; padding-right:10px   " class=" ">
+            <form [formGroup]="registrationForm">
+
+              <div class="p-field">
+                <label for="inputText">ファイル件名:</label>
+                <input id="inputText" formControlName="subject_1" type="text" pInputText style="width: 100%;" />
+              </div>
+              <div class="p-field">
+                <label for="inputText">ヘッダ:</label>
+                <input id="inputText" readonly formControlName="bed" type="text" pInputText style="width: 100%;" />
+              </div>
+              To：
+              <div formArrayName="recipients_to" fxLayout="row" fxLayoutGap="10px">
+                <div  *ngFor="let reto of recipients_to.controls; let i = index" [formGroupName]="i" class="flex gap-3" style="padding-bottom: 5px;">
+                  <div class="p-field">
+                    <input id="inputText" type="text" formControlName="last_name" pInputText style="width: 100%;" placeholder="見積"/>
+                  </div>
+                  <div class="p-field">
+                    <input id="inputText" type="text" formControlName="first_name" pInputText style="width: 100%;" placeholder="太郎"/>
+                  </div>
+                  <div class="p-field">
+                    <input id="inputText" type="text" formControlName="email" pInputText style="width: 100%;" placeholder="example@example.com"/>
+                  </div>
+                  <button pButton type="button" icon="pi pi-plus" (click)="addRecipient('to')" style="height: 10%;"></button>
+                </div>
+              </div>
+    
+              Cc:
+              <div formArrayName="recipients_cc" fxLayout="row" fxLayoutGap="10px">
+                <div  *ngFor="let recc of recipients_cc.controls; let i = index" [formGroupName]="i" class="flex gap-3" style="padding-bottom: 5px;">
+                  <div class="p-field">
+                    <input id="inputText" type="text" formControlName="last_name" pInputText style="width: 100%;" placeholder="見積"/>
+                  </div>
+                  <div class="p-field">
+                    <input id="inputText" type="text" formControlName="first_name" pInputText style="width: 100%;" placeholder="太郎"/>
+                  </div>
+                  <div class="p-field">
+                    <input id="inputText" type="text" formControlName="email" pInputText style="width: 100%;" placeholder="example@example.com"/>
+                  </div>
+                  <button pButton type="button" icon="pi pi-plus" (click)="addRecipient('cc')" style="height: 10%;"></button>
+                </div>
+              </div>
+    
+              <div class="p-field">
+                <label for="inputText">メール件名:</label>
+                <input id="inputText" formControlName="subject_2" type="text" pInputText style="width: 100%;" />
+              </div>
+              <label >本文:</label>
+    
+              <div class="flex" style="width: 100%;height: 300px;overflow: auto;">
+                <textarea #textArea (input)="adjustHeight(textArea)" pInputTextarea (keydown)="handleEnterKey($event, textArea)" formControlName="main_text"
+                  rows="3" style="width: 100%; height: 90%;">
+                </textarea>
+                
+              </div>
+              <div class="flex" style="padding-top: 20px;">
+                <div class="p-field" style="width: 60rem;">
+      
+                </div>
+                <div class="p-field" style="width: 20rem;">
+                  <button pButton type="button" label="更新" style="width: 100%;" (click)="saveEmailInof()"></button>
+      
+                </div>
+    
+              </div>
+            </form>
+  
+          </div>
+  
+          </div>
+    </div>
+  
+    <div style="width: 100%;padding-top:23px" class="flex gap-3">
+  
+      <div class="p-field" style="width: 20rem;">
+          
+      </div>
+      <div class="p-field" style="width: 20rem;">
+          
+      </div>
+      <div class="p-field" style="width: 20rem;">
+  
+      </div>
+      <div class="p-field" style="width: 20rem;">
+        <button pButton type="button" icon="pi pi-arrow-left" style="width: 100%;" label="戻る" class="back-button"(click)="goBack()"></button>
+  
+      </div>
+      <div class="p-field" style="width: 20rem;">
+          <button pButton type="button" label="送信" style="width: 100%;" (click)="sendEmail()"></button>
+      </div>
+  </div>
+    </div>
+    <app-p005 #pdfPopup></app-p005>

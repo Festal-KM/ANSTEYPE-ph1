@@ -1,0 +1,81 @@
+.upload-section {
+    flex: 0 0 40%;
+    max-width: 40%;
+    margin-right: 20px;
+    .upload-box {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center; 
+        border: 2px dashed #ccc;
+        padding: 20px;
+        color: #777;      
+        height: 100% !important;
+
+        small {
+            display: block;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+    }
+}
+
+.file-info {
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 30px;
+    font-size: 14px;
+    color: #333;
+}
+
+.remove-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.footer {
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ddd;
+    gap: 15px;
+}
+
+.form-row {
+    margin-top: 16px;
+  }
+
+.row-flex-1{
+    flex: 0 0 10%;
+    width: 100 !important;
+    align-items: center !important;
+    margin-right: 10px;
+}
+
+.row-flex-2{
+    flex: 0 0 90%;
+    width: 100 !important;
+    align-items: center;
+}
+
+.text-right{
+    text-align: right;
+    display: block; 
+}
+
+::ng-deep .fullwidth-input > span {
+    width: 100% !important;
+}
+
+::ng-deep .fullwidth-input input {
+    width: 100% !important;
+}
+  
+  
+  

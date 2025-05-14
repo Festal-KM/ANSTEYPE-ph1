@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="63" height="63" viewBox="0 0 63 63" xml:space="preserve">
+<desc>Created with Fabric.js 5.3.0</desc>
+<defs>
+</defs>
+<g transform="matrix(0 -0.7556245549 0.7562583943 0 34.5329470539 30.3205619208)" id="Uug4h9qfe-_fGXpPocj9a"  >
+<path style="stroke:white;stroke-width: 15; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; stroke: white;fill-rule: nonzero; opacity: 1;filter: url(#SVGID_662);"  transform=" translate(0, 0)" d="M 0 -27.17391 C 15 -27.17391 27.17391 -15 27.17391 0 C 27.17391 15 15 27.17391 0 27.17391 C -15 27.17391 -27.17391 15 -27.17391 0 C -27.17391 -15 -15 -27.17391 0 -27.17391 z" stroke-linecap="round" />
+<filter id="SVGID_662" y="-38.4000027%" height="176.8000054%" x="-21.84000027%" width="143.68000054%" >
+	<feGaussianBlur in="SourceAlpha" stdDeviation="0"></feGaussianBlur>
+	<feOffset dx="-1" dy="-10" result="oBlur" ></feOffset>
+	<feFlood flood-color="rgb(140,206,211)" flood-opacity="1"/>
+	<feComposite in2="oBlur" operator="in" />
+	<feMerge>
+		<feMergeNode></feMergeNode>
+		<feMergeNode in="SourceGraphic"></feMergeNode>
+	</feMerge>
+</filter>
+<radialGradient id="SVGID_669" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -27.1739090572 -27.1739090572)"  cx="27.173909057233146" cy="27.173909057233146" r="27.173909057233146" fx="27.173909057233146" fy="27.173909057233146">
+<stop offset="0%" style="stop-color:#ffffff;stop-opacity: 1"/>
+<stop offset="50%" style="stop-color:#7e7e7e;stop-opacity: 1"/>
+<stop offset="100%" style="stop-color:#000000;stop-opacity: 1"/>
+</radialGradient>
+<path style="stroke: rgb(64,148,206); stroke-width: 15; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_669); fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M 0 -27.17391 C 15 -27.17391 27.17391 -15 27.17391 0 C 27.17391 15 15 27.17391 0 27.17391 C -15 27.17391 -27.17391 15 -27.17391 0 C -27.17391 -15 -15 -27.17391 0 -27.17391 z" stroke-linecap="round" />
+</g>
+</svg>

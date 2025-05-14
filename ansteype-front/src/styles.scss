@@ -1,0 +1,124 @@
+/* You can add global styles to this file, and also import other style files */
+$gutter: 1rem; //for primeflex grid system
+@import "./assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+body {
+    font-size: 120%;
+}
+
+.fullwidth {
+    width: 100% !important;
+}
+
+.input-group-column {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.actions-section-end{
+    display: flex !important;
+    justify-content: end !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.custom-table .p-datatable-tbody > tr:nth-child(odd) {
+    background-color: #c5dcff; /* 奇数行颜色 */
+  }
+  
+.custom-table .p-datatable-tbody > tr:nth-child(even) {
+background-color: #ffffff; /* 偶数行颜色 */
+}
+
+.time-title {
+    margin-bottom: 20px !important;
+    font-size: 30px !important; /* 根据需要调整字体大小 */
+    color: #565151;
+    font: inherit;
+    font-weight: bold !important;
+    width: 100%;
+  }
+  .full-width-table {
+    width: 80%;
+    height: 90%;
+    border-collapse: collapse;
+    
+  }
+  
+  .shadow-box {
+    width: 200px;
+    border: 2px solid #e0e0e0;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    border-radius: 15px; /* 圆角效果 */
+    flex-direction: column !important;
+  }
+  .shadow-box1 {
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    padding: 5px 5px 5px 5px;
+    border-radius: 7px; /* 圆角效果 */
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); /* 阴影效果 */
+    display: flex;
+    flex-direction: row;
+    gap: 1rem !important;
+  
+  }
+  .ppanelBtn {
+    width: 100%;
+    height: 100% !important;
+  }
+  
+  
+ .ppanelBtn  p-panel {
+    height:100% !important;
+  }
+ .mailCheck {
+    display: flex;
+    flex-direction: column;
+    gap: .1rem !important;
+  
+  }
+ .p-datatable-wrapper {
+    min-height: 40vh !important; /* 使用 !important 确保样式被应用 */
+    display: flex;
+    flex-direction: column;
+  }
+  
+ .p-datatable-wrapper .p-datatable-scrollable-body {
+    height: calc(40vh - 40px) !important; /* 确保表格体部分有滚动 */
+    overflow-y: auto !important;
+  }
+  
+ .p-datatable-wrapper .p-datatable-scrollable-header {
+    overflow: hidden !important;
+  }
+  
+ .bkHeight{
+    height: 63% !important;
+    margin-bottom: .5rem !important;
+  }
+ .custom-table{
+    max-width: 50vw;
+  } 
+  
+ .btn_s03_1 {
+    margin-left: 20px !important;
+    background-color: white!important;;
+    color: blue!important;
+  
+  }
+
+  .back-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+}
+

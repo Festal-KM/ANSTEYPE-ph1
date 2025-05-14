@@ -1,0 +1,11 @@
+<div class="upload-box" pDroppable (dragover)="onDragOver($event)" (drop)="onFileDrop($event)">
+    <div>
+        <i class="pi pi-upload"></i>
+        <p>ファイルをここにドロップ</p>
+        <p>もしくは</p>
+        <button pButton type="button" label="ファイル追加" (click)="fileInput.click()"></button>
+        <input type="file" #fileInput (change)="onFileChange($event); resetFileInput(fileInput)" hidden />
+        <small>*ファイルサイズの上限は20MBです。</small>
+    </div>
+</div>
+

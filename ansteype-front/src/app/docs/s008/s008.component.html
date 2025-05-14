@@ -1,0 +1,86 @@
+<div class="card input-card flex flex-column gap-3">
+    <form [formGroup]="quotationForm">
+        <div *ngIf="errorMessages.length > 0" class="error-messages">
+            <p *ngFor="let message of errorMessages">{{ message }}</p>
+        </div>
+
+        <!-- Invoice Filename Rules -->
+        <div>
+            <p class="p-font">請求書ファイル命名規則</p>
+            <div class="flex">
+                <input pInputText type="text" class="fullwidth" formControlName="format" />
+                <button pButton [disabled]="isStaff" type="button" icon="pi pi-pencil" class="button-section" (click)="toggleEdit('format')"></button>
+            </div>
+        </div>
+
+        <!-- Invoice Number Rules -->
+        <div class="form-row">
+            <p class="p-font">請求書番号発番ルール</p>
+            <div class="flex">
+                <input pInputText type="text" class="fullwidth" formControlName="issuance_rule" />
+                <button pButton [disabled]="isStaff" type="button" icon="pi pi-pencil" class="button-section" (click)="toggleEdit('issuance_rule')"></button>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <p class="p-font">品目名記載ルール</p>
+            <div class="flex">
+                <input pInputText type="text" class="fullwidth" formControlName="item_name_rule" />
+                <button pButton [disabled]="isStaff" type="button" icon="pi pi-pencil" class="button-section" (click)="toggleEdit('item_name_rule')"></button>
+            </div>
+        </div>
+
+        <!-- Payment Deadline Rules -->
+        <div class="form-row flex flex-column gap-3">
+            <p class="p-font">振込期日設定ルール</p>
+            <div class="flex gap-3" fxLayout="row" fxLayoutAlign="center center"
+                style="display: flex; align-items: center;">
+                <label style="flex: 0 0 4%;text-align: right; margin-right: 2px;" for="month">月:</label>
+                <div style="flex: 0 0 8%">
+                    <p-dropdown styleClass="fullwidth" [options]="monthStatus" placeholder="未選択" formControlName="due_month_status"></p-dropdown>
+                </div>
+                <input pInputText type="text" placeholder="未選択" formControlName="due_month" formControlLabel="振込期日設定ルール_月" />
+            </div>
+            <div class="flex gap-3" fxLayout="row" fxLayoutAlign="center center"
+                style="display: flex; align-items: center;">
+                <label style="flex: 0 0 4%;text-align: right; margin-right: 2px;" for="day">日付:</label>
+                <div style="flex: 0 0 8%">
+                    <p-dropdown styleClass="fullwidth" [options]="dayStatus" placeholder="未選択" formControlName="due_date_status"></p-dropdown>
+                </div>
+                <input pInputText type="text" placeholder="未選択" formControlName="due_date" formControlLabel="振込期日設定ルール_日付" />
+            </div>
+            <div>
+                <label>支払期日が土日祝の場合:</label>
+            </div>
+            <div class="flex gap-3">
+                <p-radioButton
+                    *ngFor="let option of weekendOptions"
+                    [value]="option.value"
+                    formControlName="weekend_previous_status"
+                    [label]="option.label"
+                ></p-radioButton>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <p class="p-font">メール作成ルール</p>
+            <div class="flex">
+                <textarea class="fullwidth" rows="10" formControlName="email_creation_rule" ></textarea>
+                <button pButton [disabled]="isStaff" type="button" icon="pi pi-pencil" class="button-section" (click)="toggleEdit('email_creation_rule')"></button>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <p class="p-font">請求保存先</p>
+            <div class="flex">
+                <input pInputText type="text" class="fullwidth" formControlName="save_location" />
+                <button pButton [disabled]="isStaff" type="button" icon="pi pi-pencil" class="button-section" (click)="toggleEdit('save_location')"></button>
+            </div>
+        </div>
+
+        <div class="actions-section">
+            <button pButton type="button" icon="pi pi-arrow-left" label="戻る" class="back-button" (click)="goBack()"></button>
+            <button pButton [disabled]="isStaff" type="submit" icon="pi pi-save" label="保存" (click)="onSubmit()"></button>
+        </div>
+    </form>
+</div>

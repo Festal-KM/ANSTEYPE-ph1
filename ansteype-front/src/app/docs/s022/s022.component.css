@@ -1,0 +1,46 @@
+.table-container {
+  overflow: auto; /* 让表格部分可以滚动 */
+  min-height: 0;  /* 避免 flex 导致无限膨胀 */
+  } 
+  ::ng-deep .p-datatable-wrapper {
+    min-height: 56vh !important; /* 使用 !important 确保样式被应用 */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  ::ng-deep .p-datatable-wrapper .p-datatable-scrollable-body {
+    height: calc(56vh - 40px) !important; /* 确保表格体部分有滚动 */
+    overflow-y: auto !important;
+  }
+  
+  ::ng-deep .p-datatable-wrapper .p-datatable-scrollable-header {
+    overflow: hidden !important;
+  }
+  
+  .dropdown-width{
+    width: 15%;
+  }
+  .center-content {
+    text-align: center; /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */
+  } 
+  .table-container p-table tr td input {
+    width: 200px;
+  }
+
+  .table-container p-table tr td div button {
+    height: 30px;margin-top:-10px;
+  }
+
+  .header-container {
+    position: relative;
+    padding-left: 20px;
+    z-index: 10; /* 确保它在表格之上 */
+    background: white; /* 防止透明时被表格内容透过去 */
+  }
+  .search-container {
+    min-height: 150px; /* 设置最小高度 */
+    max-height: 200px; /* 防止太高 */
+    overflow: hidden; /* 避免高度变化过大 */
+  }
+  

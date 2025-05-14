@@ -1,0 +1,76 @@
+.main-container {
+    flex: 0 0 70%;
+    max-width: 70%;
+    margin-right: 20px;
+}
+
+.filter-container {
+    width: 100% !important;
+    max-width: 30%;
+    align-self: flex-start;
+    border: 1px solid #e0e0e0;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    gap: 16px !important;
+}
+
+.filter-container > div,
+.filter-container > button {
+  margin-top: 16px;
+}
+
+.filter-container > div:last-child,
+.filter-container > button:last-child {
+  margin-right: 0;
+}
+
+.actions-section{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* タブのレイアウトを左寄せにし、間隔を調整 */
+::ng-deep .custom-tab .p-tabview-nav {
+  display: flex;
+  justify-content: flex-start; /* タブを左揃えにする */
+  gap: 10px; /* 「見積」と「請求」の間隔を調整 */
+}
+
+/* PrimeNG のデフォルトスタイルが影響を与えないように `p-tabview-nav-link` の背景を削除 */
+::ng-deep .custom-tab .p-tabview-nav-link {
+  background-color: transparent !important; /* デフォルトの白背景を削除 */
+  box-shadow: none !important; /* 影を削除 */
+  border: none !important; /* 枠線を削除 */
+}
+
+/* タブの通常状態（未選択） */
+::ng-deep .custom-tab .p-tabview-nav li {
+  background-color: #f0f0f0; /* タブの背景色（未選択時は灰色） */
+  padding: 0; /* 内側の余白をゼロにすることでデザインを崩さない */
+  height: 45px; /* タブの高さを統一 */
+  width: 100px;
+  font-size: 16px; /* フォントサイズを適切に */
+  font-weight: normal; /* フォントの太さを通常に */
+  color: #666; /* 文字色（薄めのグレー） */
+  border: 1px solid #ccc; /* 境界線を追加 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 選択されたタブ（見積 or 請求） */
+::ng-deep .custom-tab .p-tabview-nav li.p-highlight {
+  background-color: #ffffff; /* 選択時は白背景 */
+  font-weight: bold; /* フォントを太字に */
+}
+
+/* `li` が不要に増えないようにする */
+::ng-deep .custom-tab .p-tabview-nav li:not(:first-child):empty {
+  display: none !important;
+}
+

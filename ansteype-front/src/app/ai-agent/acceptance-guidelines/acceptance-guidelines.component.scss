@@ -1,0 +1,58 @@
+// .input-card {
+//     position: fixed;
+//     right: 2rem;
+//     background-color: #fff; /* 根据需要调整背景颜色 */
+//     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+//     padding: 1rem; /* 根据需要调整内边距 */
+//     z-index: 1000; /* 保证在页面的最上层 */
+// }
+
+// .content {
+//     padding-bottom: 120px; /* 根据输入框的高度，给内容区域留出空间 */
+// }
+.age {
+    width: 50px
+}
+
+.container {}
+
+.content-card {
+    max-height: calc(100vh - 29rem);
+    margin-bottom: 1rem;
+}
+
+.input-card {
+    height: 19rem;
+}
+
+.check-list {
+    height: 15rem;
+    //border: 1px solid gray;
+    padding: 0.25rem;
+}
+
+
+//覆盖p-button的样式
+// :host ::ng-deep .p-button {
+//     margin: 0;
+//     padding: 0.15rem 0.75rem ;
+// }
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    padding: 0rem 0.5rem 0.25rem 0rem;
+    border: none;
+}
+
+.name-list {
+    // height: 10rem;
+    // overflow-y: auto;
+}
+
+.add-button {
+    padding: 0.15rem 0.75rem;
+    margin-left: 2rem;
+}
+
+.table-button {
+    margin-right: 0.5rem;
+}

@@ -1,0 +1,42 @@
+/* 拖拽上传区域样式 */
+.drop-zone {
+    height: 200px;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    background-color: #f5f8ff;
+    text-align: center;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .drop-zone i {
+    margin-bottom: 0.5rem;
+  }
+  
+  .drop-zone p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .add-file-button {
+    color: #007bff;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+  
+  .add-file-button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* 文件限制说明 */
+  .upload-info {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #888;
+    text-align: left;
+  }
+  

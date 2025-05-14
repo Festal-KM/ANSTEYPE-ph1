@@ -1,0 +1,17 @@
+<div class="layout-wrapper" [ngClass]="containerClass">
+    <app-loading-overlay></app-loading-overlay>
+    <div class="layout-sidebar">
+        <skydesk-ui-sidebar (flagChanged)="toggleSidenav(true)"></skydesk-ui-sidebar>
+    </div>
+    <div class="layout-main-container">
+        
+        <div class="layout-main">
+            <skydesk-ui-topbar   [pageTitle]="headerTitle"></skydesk-ui-topbar>
+            
+            <router-outlet></router-outlet>
+        </div>
+        
+    </div>
+    <skydesk-ui-config [hidden]="true"></skydesk-ui-config>
+    <div class="layout-mask"></div>
+</div>

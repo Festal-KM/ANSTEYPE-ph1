@@ -1,0 +1,76 @@
+.pdf-viewer-container {
+    width: 100%;
+    height: auto!important; /* 设置容器高度 */
+  }
+  .shadow-box-1 {
+    width: 200px;
+    height: 100%;
+    border: 2px solid #e0e0e0;
+    padding: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    border-radius: 15px; /* 圆角效果 */
+  }
+  .table-container {
+    height: 25vh; /* 你可以调整这个高度 */
+    min-height: 26vh;
+  } 
+
+  .table-container ::ng-deep .p-datatable-scrollable-body {
+    max-height: 25vh; /* 同样调整这个高度以匹配容器 */
+  }
+  
+  .p-datatable-scrollable-header,
+  .p-datatable-scrollable-body {
+    overflow: hidden;
+    overflow-y: auto;
+  }
+
+  ::ng-deep .p-datatable-wrapper {
+    min-height: 25vh !important; /* 使用 !important 确保样式被应用 */
+    display: flex;
+    flex-direction: column;
+  }
+  
+/* 鼠标悬停样式 */
+.row-hover {
+  background-color: #f0f0f0 !important; /* 提高优先级 */
+}
+
+/* 选中行样式 */
+.row-selected {
+  background-color: #d9d9d9 !important; /* 提高优先级 */
+  font-weight: bold;
+}
+.shadow-box-1 .p-field {
+  padding-bottom: 10px;
+}
+
+::ng-deep ngx-extended-pdf-viewer .side-toolbar {
+  display: none;  /* 隐藏预览栏 */
+}
+::ng-deep ngx-extended-pdf-viewer ::ng-deep #sidebarContainer {
+  display: none !important;
+}
+
+::ng-deep ngx-extended-pdf-viewer ::ng-deep #viewerContainer {
+  left: 0 !important;
+}
+
+.data-flex{
+  flex:0 0 45%;
+  display: flex;
+  width: 95% !important;
+  margin-right: 2px;
+}
+
+span {
+  white-space: nowrap;
+}
+
+::ng-deep .fullwidth-input > span {
+  width: 95% !important;
+}
+
+::ng-deep .fullwidth-input input {
+  width: 95% !important;
+}

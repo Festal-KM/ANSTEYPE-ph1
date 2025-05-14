@@ -1,0 +1,207 @@
+.layout-sidebar {
+    position: fixed;
+    width: 300px;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 999;
+    user-select: none;
+    left: 1rem;
+    transition: transform $transitionDuration, left $transitionDuration;
+    background-color: var(--blue-700);
+    border-radius: $borderRadius;
+    padding: 0.5rem 2.5rem;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, .02), 0px 0px 2px rgba(0, 0, 0, .05), 0px 1px 4px rgba(0, 0, 0, .08);
+}
+.rounded-rectangle {
+    width: 120px; /* 设置宽度 */
+    height: 23px; /* 设置高度 */
+    background-color: #c1d3f1; /* 设置背景颜色 */
+    color: black; /* 设置文字颜色 */
+    text-align: center; /* 文本居中 */
+    border-radius: 10px; /* 设置圆角半径 */
+    margin-left: 40px;
+  
+  }
+  
+  .layout-menuitem-text-g {
+    font-size: 14px;
+  }
+
+.layout-menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    font-size: 24px;
+
+    background-color: var(--blue-700);
+
+    .layout-root-menuitem {
+        >.layout-menuitem-root-text {
+            // font-size: .857rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--blue-100);
+            font-size: 18px;
+            margin: .75rem 0;
+        }
+
+        >a {
+            display: none;
+        }
+    }
+
+    a {
+        user-select: none;
+
+        &.active-menuitem {
+            >.layout-submenu-toggler {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    li.active-menuitem {
+        >a {
+            .layout-submenu-toggler {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+
+        a {
+            display: flex;
+            align-items: center;
+            position: relative;
+            outline: 0 none;
+            color: var(--blue-100);
+            font-weight: 700;
+            cursor: pointer;
+            padding: .55rem 1rem;
+            border-radius: $borderRadius;
+            transition: background-color $transitionDuration, box-shadow $transitionDuration;
+
+            .layout-menuitem-icon {
+                margin-right: .5rem;
+            }
+
+            .layout-submenu-toggler {
+                font-size: 75%;
+                margin-left: auto;
+                transition: transform $transitionDuration;
+            }
+
+            &.active-route {
+                font-weight: 700;
+                font-size: 24px;
+                color: var(--primary-50); // 文字色
+            }
+
+            &:hover {
+                background-color: var(--blue-700);
+            }
+
+            &:focus {
+                // @include focused-inset();
+            }
+        }
+
+        ul {
+            overflow: hidden;
+            border-radius: $borderRadius;
+
+            li {
+                a {
+                    margin-left: 1rem;
+                }
+
+                li {
+                    a {
+                        margin-left: 2rem;
+                    }
+
+                    li {
+                        a {
+                            margin-left: 2.5rem;
+                        }
+
+                        li {
+                            a {
+                                margin-left: 3rem;
+                            }
+
+                            li {
+                                a {
+                                    margin-left: 3.5rem;
+                                }
+
+                                li {
+                                    a {
+                                        margin-left: 4rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .layout-topbar-button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        color: var(--text-color-secondary);
+        border-radius: 50%;
+        width: 3rem;
+        height: 6rem;
+        cursor: pointer;
+        transition: background-color $transitionDuration;
+
+        &:hover {
+            color: var(--text-color);
+        }
+
+        &:focus {
+
+        }
+
+        i {
+            font-size: 3rem;
+        }
+
+        span {
+            font-size: 10rem;
+            display: none;
+        }
+    }
+
+    .layout-menu-button {
+        margin-left: 5rem;
+        margin-right: 3rem;
+    }
+
+    .layout-topbar-menu-button {
+        display: none;
+
+        i {
+            font-size: 3.25rem;
+        }
+    }
+
+    .layout-topbar-menu {
+        margin: 0 0 0 auto;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        .layout-topbar-button {
+            margin-left: 3rem;
+        }
+    }
+}

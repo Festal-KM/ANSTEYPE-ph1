@@ -1,0 +1,135 @@
+<div class="card input-card flex flex-column gap-3 bkHeight">
+
+  <!-- Question Input -->
+  <div style="width: 100%;height: 80%;">
+    <p class="time-title ">{{ titleYear }}年{{ titleMonth }}月</p>
+    <div class="flex" style="height: 80%;">
+      <div style="width: 55vw;">
+        <p-table [value]="data" [scrollable]="true" scrollHeight="40vh" scrollWidth="100%" [sortMode]="'single'"
+          [selectionMode]="'single'" class="custom-table">
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="min-width: 50px;"></th>
+              <th style="min-width: 200px;">会社名</th>
+              <th style="min-width: 150px;">1週目 </th>
+              <th style="min-width: 150px;">2週目 </th>
+              <th style="min-width: 150px;">3週目 </th>
+              <th style="min-width: 150px;">4週目 </th>
+              <th style="min-width: 150px;">5週目 </th>
+              <th style="min-width: 150px;">月額合計 </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr (click)="toggleExpand(product)">
+              <td>
+                <!-- 展开或收起的图标 -->
+                <i class="pi" [class.pi-chevron-down]="product.isEditable" [class.pi-chevron-up]="!product.isEditable">
+                </i>
+              </td>
+              <td>{{product.company_name}}</td>
+              <td>{{product.week1 | currency : "JPY" }}</td>
+              <td>{{product.week2 | currency : "JPY" }}</td>
+              <td>{{product.week3 | currency : "JPY" }}</td>
+              <td>{{product.week4 | currency : "JPY" }}</td>
+              <td>{{product.week5 | currency : "JPY" }}</td>
+              <td>{{product.month | currency : "JPY" }}</td>
+            </tr>
+            <ng-container *ngIf="expandedRows.has(product)">
+              <tr *ngFor="let store of product.stores">
+                <td></td>
+                <td>{{store.store_name}}</td>
+                <td>{{store.week1 | currency : "JPY" }}</td>
+                <td>{{store.week2 | currency : "JPY" }}</td>
+                <td>{{store.week3 | currency : "JPY" }}</td>
+                <td>{{store.week4 | currency : "JPY" }}</td>
+                <td>{{store.week5 | currency : "JPY" }}</td>
+                <td>{{store.month | currency : "JPY" }}</td>
+              </tr>
+            </ng-container>
+          </ng-template>
+
+
+
+        </p-table>
+      </div>
+
+      <!-- 搜索区域 -->
+      <div style="width: 30vw;  margin-left: 30px;height:35vh" class="shadow-box">
+        <form [formGroup]="registrationForm">
+          <div class="p-field" style="margin-top: 20px;">
+            <label for="inputText">対象年</label>
+            <p-dropdown styleClass="fullwidth" [options]="years" placeholder="-未選択-"
+              formControlName="year"></p-dropdown>
+          </div>
+          <div class="p-field" style="margin-top: 20px;">
+            <label for="inputText">対象月</label>
+            <p-dropdown styleClass="fullwidth" [options]="months" placeholder="-未選択-"
+              formControlName="month"></p-dropdown>
+          </div>
+          <div class="p-field" style="margin-top: 30px;">
+            <button pButton type="button" label="検索" style="width: 100%;" (click)="search()"
+              icon="pi pi-search"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class=" flex gap-3" style="width: 100%;">
+  <div style="width: 60%;" class="flex  gap-3">
+    <p-panel header="見積書の作成" fxFlex="50" class="ppanelBtn">
+      <p>案件マスタから情報の取得し、見積書を作成します。</p>
+      <div class="flex  gap-3" style="margin-top: 5px;">
+        <button pButton type="button" label="見積作成" icon="pi" style="width: 50%;" (click)="setPageShow()"></button>
+        <button pButton type="button" label="月払リスト" icon="pi" style="width: 50%;" (click)="setPageShowM()"></button>
+      </div>
+      <div class=" flex  gap-3" style="margin-top: 10px;    margin-bottom: 10px;">
+        <button pButton type="button" label="新規作成/記録" icon="pi" style="width: 50%;" (click)="setPageShowK()"></button>
+        <button pButton type="button" label="一時保存再開" icon="pi" style="width: 50%;" (click)="setPageShowSa()"></button>
+      </div>
+    </p-panel>
+  </div>
+  <div style="width:60%;" class="mailCheck">
+    <!-- <p-panel header="見積書の送付" class="ppanelBtn">
+      <p>送付先を設定し、見積書を送付。</p>
+      <div class="flex  gap-3">
+        <div style="width: 21%;">
+          <span></span>
+        </div>
+        <button pButton type="button" label="送付先チェック" icon="pi" style="width: 50%;" (click)="setPageShowSc()"></button>
+      </div>
+    </p-panel> -->
+    <div class="flex">
+      <p-panel header="見積書の送付" class="ppanelBtn">
+        <p>送付先を設定し、見積書を送付。</p>
+        <div class="flex  gap-3">
+          <div style="width: 5%;">
+            <span></span>
+          </div>
+          <button pButton type="button" label="送付先チェック" icon="pi" style="width: 80%;" (click)="setPageShowSc()"></button>
+        </div>
+      </p-panel>
+      <p-panel header="送付済み見積書一覧" class="ppanelBtn">
+        <p>送付済みの見積書を確認します</p>
+        <div class="flex  gap-3">
+          <div style="width: 5%;">
+            <span></span>
+          </div>
+          <button pButton type="button" label="送付済み見積書一覧" icon="pi" style="width: 80%;" (click)="setPageShowScDel()"></button>
+        </div>
+
+      </p-panel>
+    </div>
+    <div style="width: 100%; font-size: 1rem;" class="shadow-box1 ">
+      <div style="width: 18%;padding-left:15px">
+        <span>見積に関する</span>
+        <p>各種設定</p>
+      </div>
+
+      <button pButton class="btn_s03_1" type="button" label="見積設定" icon="pi pi-cog" style="width: 50%;"
+        (click)="setPageShowS()"></button>
+    </div>
+  </div>

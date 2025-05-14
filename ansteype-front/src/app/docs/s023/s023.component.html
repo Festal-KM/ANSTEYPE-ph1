@@ -1,0 +1,258 @@
+<div class="card input-card flex flex-column gap-3" style="height: 89%;" >
+
+  <!-- Question Input -->
+  <div  style="height: 20%;">
+    <form [formGroup]="registrationForm">
+      <p-toast position="top-center"></p-toast>
+
+      <div class=" flex gap-3" >
+        <div  class="p-field dropdown-width">
+          <label for="inputText">対象年</label>
+          <p-dropdown styleClass="fullwidth" formControlName="year" [options]="year_list" placeholder="-未選択-"></p-dropdown>
+        </div>
+
+      <div class="p-field dropdown-width" >
+        <label for="inputText">対象月</label>
+        <p-dropdown styleClass="fullwidth" formControlName="month" [options]="months" placeholder="-未選択-"></p-dropdown>
+      </div>
+
+      <div class="p-field" style="width: 15rem;padding-top :25px">
+        <button pButton type="button" label="案件情報取得"    (click)="onSeachRequest()" style="width: 100%;"></button>
+      </div>
+    </div>
+    <div class=" flex gap-3" style="padding-top: 10px;">
+      <div  class="p-field dropdown-width">
+        <label for="inputText">代理店:</label>
+        <p-dropdown styleClass="fullwidth" [options]="agents" formControlName="agency_id" placeholder="-未選択-" (onChange)="onAgencyChange($event)" placeholder="-未選択-"></p-dropdown>
+      </div>
+
+      <div class="p-field" style="width: 15rem;padding-top :25px">
+        <button pButton type="button" label="絞り込み"  style="width: 100%;" (click)="filterData()"  ></button>
+      </div>
+
+
+    </div>
+    </form>
+    </div>
+    <div class="table-container">
+      <p-table [value]="products" 
+      [scrollable]="true"
+      scrollHeight="20vh"
+      scrollWidth="100%" 
+      [sortMode]="'single'"
+      [selectionMode]="'single'">
+
+<ng-template pTemplate="header">
+<tr>
+  <th style="min-width: 100px;"></th>
+  <th style="min-width: 350px;">代理店名</th>
+  <th style="min-width: 250px;">店舗名</th>
+  <th style="min-width: 250px;">開催日</th>
+  <th style="min-width: 350px;">件名/品目名</th>
+  <th style="min-width: 350px;">金額</th>
+  <th style="min-width: 200px;">減算</th>
+  <th style="min-width: 150px;"></th>
+</tr>
+</ng-template>
+
+<ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+<tr        (click)="toggleExpand(product)"
+>
+  <td>
+    <!-- 展开或收起的图标 -->
+    <i class="pi" 
+       [class.pi-chevron-down]="expandedRow !== product" 
+       [class.pi-chevron-up]="expandedRow === product" 
+       >
+    </i>
+  </td>
+  <td>{{ product.agency_name }}</td>
+  <td>{{ product.participating_store }}</td>
+  <td>{{ product.held_date }}</td>
+  <td>
+    <ng-container *ngIf="product.isEditable; else nonEditableAmountChild">
+      <ng-container *ngIf="editingCell !== getCellKey(rowIndex, 99999,'item_name')">
+        {{ product.item_name }}
+        <div  style="float: right;" >
+
+          <button
+            pButton
+            type="button"
+            icon="pi pi-pencil"
+            #inputField
+            (click)="editCell(getCellKey(rowIndex, 99999,'item_name'), $event)"
+
+            [attr.data-cell-key]="getCellKey(rowIndex, 99999, 'item_name')"
+          ></button></div></ng-container>
+      <ng-container *ngIf="editingCell === getCellKey(rowIndex, 99999,'item_name') && editingCell !== null">
+        <input
+        type="text"
+        #inputField
+        pInputText
+        [(ngModel)]="product.item_name"
+        [attr.data-cell-key]="getCellKey(rowIndex, 99999, 'item_name')"
+        (blur)="finishEdit()"
+      /></ng-container>
+    </ng-container>
+    <ng-template #nonEditableAmountChild>
+      {{ product.item_name }}
+    </ng-template>
+
+  </td>
+
+  <td>
+
+      {{ product.amount | currency : "JPY"}}
+
+  </td>
+  <td>{{ product.subtract | currency : "JPY"}}</td>
+  <td>
+
+    <button pButton type="button" icon="pi pi-plus" style="margin-right: 10px;" (click)="addRow($event,product)"></button>
+    <button pButton type="button" icon="pi pi-minus" (click)="removeRowP(product, true)"></button>
+  </td>
+</tr>
+
+<!-- 子数据行 -->
+<ng-container *ngIf="expandedRow === product">
+  <tr *ngFor="let child of product.children; let childIndex = index">
+    <td></td> <!-- 留空，子行与父行对齐 -->
+    <td></td>
+    <td></td>
+    <td>
+      <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'held_date')">
+        <span>{{ child.held_date }}</span>
+        <div *ngIf=" child.isEditable" style="float: right;" >
+
+        <button
+          pButton
+          type="button"
+          icon="pi pi-pencil"
+          
+          (click)="editCell(getCellKey(rowIndex, childIndex,'held_date'), $event)">
+        </button></div>
+      </ng-container>
+      <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'held_date')">
+        <input
+          type="text"
+          pInputText
+          #inputField
+          [(ngModel)]="child.held_date"
+          [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'held_date')"
+          (blur)="finishEdit()"
+        />
+      </ng-container>
+
+
+    </td>
+    <td>
+      <!-- 根据isEditable判断是否为输入框 -->
+      <ng-container *ngIf="child.isEditable; else nonEditableAmountChild">
+        <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex,'item_name')">
+          {{ child.item_name }}
+          <div  style="float: right;" >
+
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              #inputField
+              (click)="editCell(getCellKey(rowIndex, childIndex,'item_name'), $event)"
+
+              [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'item_name')"
+            ></button></div></ng-container>
+        <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex,'item_name') && editingCell !== null">
+          <input
+          type="text"
+          #inputField
+          pInputText
+          [(ngModel)]="child.item_name"
+          [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'item_name')"
+          (blur)="finishEdit()"
+        /></ng-container>
+      </ng-container>
+      <ng-template #nonEditableAmountChild>
+        {{ child.item_name }}
+      </ng-template>
+
+    </td>
+    <td>
+      <ng-container *ngIf="child.type_flg === '3' && child.isEditable && child.subtract; else nonddEditableAmountChild">
+        <ng-container *ngIf="editingCell !== getCellKey(rowIndex, childIndex, 'amount')">
+          {{ child.amount | currency : "JPY"}}
+          <div style="float: right;">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              #inputField
+              (click)="editCell(getCellKey(rowIndex, childIndex, 'amount'), $event)"
+              [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'amount')"
+            ></button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="editingCell === getCellKey(rowIndex, childIndex, 'amount')">
+          <input
+            type="text"
+            #inputField
+            pInputText
+            [(ngModel)]="child.amount"
+            [attr.data-cell-key]="getCellKey(rowIndex, childIndex, 'amount')"
+            (blur)="validateInput(child, product)"
+          />
+        </ng-container>
+      </ng-container>
+      <ng-template #nonddEditableAmountChild>
+        {{ child.amount | currency : "JPY"}}
+      </ng-template>
+    </td>
+    
+    <td>
+      <ng-container *ngIf="child.type_flg === '3'">
+        <p-dropdown 
+          [options]="subtraction_options" 
+          [(ngModel)]="child.subtract" 
+          appendTo="body"
+          placeholder="減算">
+        </p-dropdown>
+      </ng-container>
+    </td>
+    <td>
+      <button pButton type="button" icon="pi pi-plus" style="margin-right: 10px;" 
+      (click)="addRow($event,product)" ></button>
+      <button pButton type="button" icon="pi pi-minus" (click)="removeRow(child,product, false)"></button>
+
+    </td>
+  </tr>
+</ng-container>
+
+</ng-template>
+</p-table>
+
+
+
+
+        </div>
+        <div style="width: 100%;padding-top:15px" class="flex gap-3">
+
+          <div class="p-field" style="width: 20rem;">
+              
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            <button pButton type="button" icon="pi pi-arrow-left" style="width: 100%;" label="戻る" class="back-button"(click)="goBack()"></button>
+
+          </div>
+          <div class="p-field" style="width: 20rem;">
+              <button pButton type="button" label="作成実行" style="width: 100%;" (click)="create_pdf_execute()"></button>
+          </div>
+          <div class="p-field" style="width: 20rem;">
+            <button pButton type="button" label="一時保存" style="width: 100%;"(click)="onTemporarySave()"></button>
+        </div>
+      </div>
+  </div>
+  <p-dialog [(visible)]="displayDialog" [modal]="true" [closable]="true" [responsive]="true" [style]="{ width: '40vw',height:'25vh' }">
+    <app-p003 (save)="temporarySave($event)" [temporaryName]="temporaryName"></app-p003>
+</p-dialog>

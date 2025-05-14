@@ -1,0 +1,46 @@
+.main-container {
+    flex: 0 0 70%;
+    max-width: 70%;
+    margin-right: 20px;
+}
+
+.filter-container {
+    width: 100% !important;
+    max-width: 30%;
+    align-self: flex-start;
+    border: 1px solid #e0e0e0;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    gap: 16px !important;
+}
+
+.filter-container > div,
+.filter-container > button {
+  margin-top: 16px;
+}
+
+.filter-container > div:last-child,
+.filter-container > button:last-child {
+  margin-right: 0;
+}
+
+.actions-section{
+    display: flex;
+    gap: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-width{
+  width: 40% !important;
+}
+
+::ng-deep .topbar .p-panel-header{
+  background-color: var(--blue-100);
+  font-size: 20px;
+}

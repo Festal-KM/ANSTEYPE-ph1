@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-column gap-2">
+    <!-- Radio Button -->
+    <p-radioButton name="radioValue" formControlName="radioValue" value="1" label="Option 1"></p-radioButton>
+    <p-radioButton name="radioValue" formControlName="radioValue" value="2" label="Option 2"></p-radioButton>
+
+    <!-- Dropdown -->
+    <p-dropdown [options]="options" formControlName="dropdownValue"></p-dropdown>
+
+    <!-- InputText -->
+    <input type="text" pInputText formControlName="inputValue1" />
+    <input type="text" pInputText formControlName="inputValue2" />
+    <input type="text" pInputText formControlName="inputValue3" />
+
+    <!-- Calendar -->
+    <p-calendar formControlName="calendarValue"></p-calendar>
+
+    <!-- Checkbox -->
+    <p-checkbox formControlName="checkboxValue" [binary]="true" label="Agree" value="1"></p-checkbox>
+    <!-- Checkbox -->
+    <p-checkbox formControlName="checkboxValue" [binary]="true" label="Agree" value="2"></p-checkbox>
+    <!-- Checkbox -->
+    <p-checkbox formControlName="checkboxValue" [binary]="true" label="Agree" value="3"></p-checkbox>
+
+    <!-- Table -->
+    <p-table [value]="rows">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Active</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+            <tr [formGroup]="getTableRowFormGroup(i)">
+                <td>
+                    <input type="text" pInputText formControlName="name" />
+                </td>
+                <td>
+                    <input type="text" pInputText formControlName="quantity" />
+                </td>
+                <td><p-checkbox formControlName="active" [binary]="true"></p-checkbox></td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-button type="submit">Submit</p-button>
+</form>

@@ -1,0 +1,86 @@
+/* Container Styles */
+.container {
+    height: 100vh;
+    background-color: #A9B8D4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Cards Wrapper */
+  .cards-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 2rem;
+    width: 80%;
+  }
+  
+  /* Card Styles */
+  .card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 30%;
+    min-height: 500px;
+  }
+
+/* Logo Container */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Logo Styles */
+.logo {
+    width: 150px;
+    margin-bottom: 1rem;
+}
+
+/* Typography */
+.title {
+    margin: 0 0 1rem 0;
+    color: #333;
+    text-align: center;
+}
+
+.description {
+    color: #555;
+    text-align: center;
+}
+
+/* Input Field Styles */
+.input-field {
+    width: 100%;
+}
+
+/* Button Styles */
+.full-width-button {
+    width: 100%;
+}
+
+.button-container {
+    margin-top: 1.5rem;
+}
+
+/* Form Field Margin */
+.p-field {
+    margin-bottom: 1rem;
+}

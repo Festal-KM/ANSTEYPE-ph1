@@ -1,0 +1,16 @@
+<div class="flex flex-column align-items-start gap-3 flex-wrap">
+    <div class="p-field">
+        <input pInputText id="search" [(ngModel)]="searchTerm" (input)="filterList()" placeholder="病名を入力してください..." />
+    </div>
+
+    <p-listbox [options]="filteredMedical" [(ngModel)]="selectedMedical" optionLabel="name"
+        (onDblClick)="confirmSelection()" (onClick)="inputSelection()"
+        [listStyle]="{'max-height': '24rem','height': '24rem', 'width':'25rem' }" [filter]="false">
+    </p-listbox>
+
+    <div class="flex justify-content-between" style="width: 25rem;">
+        <button pButton label="確定" icon="pi pi-check" (click)="confirmSelection()"
+            [disabled]="!selectedMedical"></button>
+        <button pButton label="閉じる" icon="pi pi-times" (click)="onClose.emit()" class="p-ml-2"></button>
+    </div>
+</div>

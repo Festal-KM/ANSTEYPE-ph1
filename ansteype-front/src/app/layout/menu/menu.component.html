@@ -1,0 +1,51 @@
+<ul class="layout-menu">
+    <div style="width: 30%;" class="flex  gap-3">
+        <div >
+            <a class="layout-topbar-logo"> <!-- routerLink=""> -->
+                <!-- <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo"> -->
+                <img [src]="logoUrl" alt="logo" style="height: 100px;width:100px">
+                <!-- <span style="font-weight:bolder">AI AGENT</span> -->
+            </a>
+        </div>
+
+
+        <button class="p-link layout-menu-button layout-topbar-button" (click)="toggleSidenav()">
+            <i class="pi pi-bars"></i>
+        </button>
+    </div>
+
+
+    <ng-container *ngFor="let item of model; let i = index;">
+        <li skydesk-ui-menu-item *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
+        <li *ngIf="item.separator" class="menu-separator"></li>
+    </ng-container>
+    <!-- <li>
+        <a href="https://www.primefaces.org/primeblocks-ng/#/">
+            <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'banner-primeblocks' : 'banner-primeblocks-dark'}}.png" alt="Prime Blocks" class="w-full mt-3"/>
+        </a>
+    </li> -->
+
+</ul>
+
+<hr >
+<div style="font-size: 18px;color: var(--blue-100); " >
+    <div >
+
+          <div style="width: 85%; height: 80px; border: 0px solid #ccc; display: flex; justify-content: center; align-items: center; color: gray;">
+            <i class="pi pi-user" style="font-size: 5rem;"></i>
+          </div>
+    </div>
+</div>
+<div style="width: 100%;justify-content: center; align-items: center;color: var(--blue-100);padding-top:5px;">
+
+    <div class="rounded-rectangle">
+        {{displayRole(user.role)}}
+    </div>
+    <div style="width: 100%;justify-content: center; align-items: center;padding-left:40px;padding-top:5px">
+
+        <p style="width:100%">{{user.user_name_first + " " +user.user_name_last}}</p>
+        <p style="width:100%">{{user.user_mail}}</p>
+    
+    </div>
+</div>
+

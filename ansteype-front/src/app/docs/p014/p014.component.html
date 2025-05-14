@@ -1,0 +1,221 @@
+<div class="container" fxLayout="column" fxLayoutGap="1rem">
+    <form [formGroup]="storeForm">
+        <app-error-messages></app-error-messages>
+
+        <div class="input-group-column" style="margin-bottom: 20px;">
+            <label>店舗名：</label>
+            <input pInputText class="fullwidth" formControlName="store_name" formControlLabel="店舗名" />
+        </div>
+
+        <!-- 見積送付先 Section -->
+        <p>見積送付先：</p>
+        <div style="margin-left: 20px;margin-bottom: 20px;">
+            <div formArrayName="persons">
+                <div *ngFor="let person of getPersonsByType(1); let i = index" [formGroup]="person">
+                    <!-- To 担当者名 -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">To 担当者名：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="30%" formControlName="last_name"
+                            formControlLabel="見積送付先_To 担当者名">
+                        <input pInputText fxFlex="30%" formControlName="first_name" formControlLabel="見積送付先_To 担当者名">
+                    </div>
+
+                    <!-- To アドレス -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">To アドレス：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="70%" formControlName="email"
+                            formControlLabel="見積送付先_To アドレス">
+                        <button style="margin-right: 2px;" *ngIf="i === getPersonsByType(1).length - 1" pButton type="button" icon="pi pi-plus"
+                            class="circle-btn" (click)="addPerson(1)">
+                        </button>
+                        <button *ngIf="i < getPersonsByType(1).length - 1 || getPersonsByType(1).length > 1" pButton
+                            type="button" icon="pi pi-minus" class="circle-btn" (click)="removePerson(1, i)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cc 不要 -->
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+                <p-checkbox binary="true" formControlName="estimate_cc_flag"
+                    (click)="onCcFlagClick(3,'estimate_cc_flag')"></p-checkbox>
+                <label>Cc 不要</label>
+            </div>
+
+            <div formArrayName="persons">
+                <div *ngFor="let person of getPersonsByType(3); let i = index" [formGroup]="person">
+                    <!-- Cc 担当者名 -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">Cc 担当者名：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="30%" formControlName="last_name"
+                            formControlLabel="見積送付先_Cc 担当者名">
+                        <input pInputText fxFlex="30%" formControlName="first_name" formControlLabel="見積送付先_Cc 担当者名">
+                    </div>
+
+                    <!-- Cc アドレス -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">Cc アドレス：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="70%" formControlName="email"
+                            formControlLabel="見積送付先_Cc アドレス">
+                        <button style="margin-right: 2px;" *ngIf="i === getPersonsByType(3).length - 1" pButton type="button" icon="pi pi-plus"
+                            class="circle-btn" (click)="addPerson(3)">
+                        </button>
+                        <button *ngIf="i < getPersonsByType(3).length - 1 || getPersonsByType(3).length > 1" pButton
+                            type="button" icon="pi pi-minus" class="circle-btn" (click)="removePerson(3, i)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 請求送付先 Section -->
+        <div fxLayout="row">
+            <label style="margin-right: 10px;">請求送付先：</label>
+            <!-- Checkbox -->
+            <p-checkbox binary="true" formControlName="same_as_estimate_flag"
+                (click)="onSameAsEstimateFlagClick()"></p-checkbox>
+            <label>見積送付先と同じ</label>
+        </div>
+        <div style="margin-left: 20px;">
+            <div formArrayName="persons">
+                <div *ngFor="let person of getPersonsByType(2); let i = index" [formGroup]="person">
+                    <!-- To 担当者名 -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">To 担当者名：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="30%" formControlName="last_name"
+                            formControlLabel="請求送付先_To 担当者名">
+                        <input pInputText fxFlex="30%" formControlName="first_name" formControlLabel="請求送付先_To 担当者名">
+                    </div>
+
+                    <!-- To アドレス -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">To アドレス：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="70%" formControlName="email"
+                            formControlLabel="請求送付先_To アドレス">
+                        <button style="margin-right: 2px;" *ngIf="i === getPersonsByType(2).length - 1" pButton type="button" icon="pi pi-plus"
+                            class="circle-btn" (click)="addPerson(2)">
+                        </button>
+                        <button *ngIf="i < getPersonsByType(2).length - 1 || getPersonsByType(2).length > 1" pButton
+                            type="button" icon="pi pi-minus" class="circle-btn" (click)="removePerson(2, i)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cc 不要 -->
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+                <p-checkbox binary="true" formControlName="billing_cc_flag"
+                    (click)="onCcFlagClick(4,'billing_cc_flag')"></p-checkbox>
+                <label>Cc 不要</label>
+            </div>
+
+            <div formArrayName="persons">
+                <div *ngFor="let person of getPersonsByType(4); let i = index" [formGroup]="person">
+                    <!-- Cc 担当者名 -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">Cc 担当者名：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="30%" formControlName="last_name"
+                            formControlLabel="請求送付先_Cc 担当者名">
+                        <input pInputText fxFlex="30%" formControlName="first_name" formControlLabel="請求送付先_Cc 担当者名">
+                    </div>
+
+                    <!-- Cc アドレス -->
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="row-gap">
+                        <label fxFlex="20%">Cc アドレス：</label>
+                        <input style="margin-right: 2px;" pInputText fxFlex="70%" formControlName="email"
+                            formControlLabel="請求送付先_Cc アドレス">
+                        <button style="margin-right: 2px;" *ngIf="i === getPersonsByType(4).length - 1" pButton type="button" icon="pi pi-plus"
+                            class="circle-btn" (click)="addPerson(4)">
+                        </button>
+                        <button *ngIf="i < getPersonsByType(4).length - 1 || getPersonsByType(4).length > 1" pButton
+                            type="button" icon="pi pi-minus" class="circle-btn" (click)="removePerson(4, i)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group-column" style="margin-top: 20px;">
+            <label>店舗アドレス：</label>
+            <input pInputText class="fullwidth" formControlName="store_address" formControlLabel="店舗アドレス" />
+        </div>
+
+        <p style="margin-top: 20px;">単価設定：</p>
+        <div formArrayName="unitPrices">
+            <div fxLayout="column" style="margin-left: 20px;">
+                <label>平日</label>
+                <div class="flex" style="margin-left: 20px; margin-top: 10px;">
+                    <div class="data-flex">
+                        <label>オーダー</label>
+                    </div>
+                    <div class="data-flex">
+                        <label>単価</label>
+                    </div>
+                </div>
+
+                <div *ngFor="let unitPrice of getUnitPricesByType(1); let i = index" [formGroup]="unitPrice" class="flex row-gap"
+                    style="margin-left: 20px;">
+                    <div class="data-flex">
+                        <input class="fullwidth" pInputText formControlName="order_type" formControlLabel="平日_オーダー" />
+                    </div>
+                    <p-inputNumber class="data-flex fullwidth-input" formControlName="unit_price" formControlLabel="平日_単価" mode="currency" currency="JPY" [maxFractionDigits]="0"></p-inputNumber>
+                    <div fxLayout="row" fxLayoutAlign="center center" style="display: flex; align-items: center;">
+                        <span>/日</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="add-button" style="margin-left: 2px;">
+                        <button pButton *ngIf="i === getUnitPricesByType(1).length - 1" icon="pi pi-plus" label="" class="icon-button"
+                        (click)="addUnitPrice(1)"></button>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="add-button" style="margin-left: 2px;">
+                        <button pButton *ngIf="i < getUnitPricesByType(1).length - 1 || getUnitPricesByType(1).length > 1" type="button" icon="pi pi-minus" class="icon-button"
+                            (click)="removeUnitPrice(1, i)"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="column" style="margin-left: 20px;margin-top: 10px;">
+            <label style="margin-right: 20px;">週末</label>
+            <p-checkbox binary="true" label="平日と同じ" formControlName="same_as_weekdays_flag"
+                (click)="onSameAsWeekdaysFlagClick()"></p-checkbox>
+
+            <div formArrayName="unitPrices">
+                <div fxLayout="column">
+                    <div class="flex" style="margin-left: 20px; margin-top: 10px;">
+                        <div class="data-flex">
+                            <label>オーダー</label>
+                        </div>
+                        <div class="data-flex">
+                            <label>単価</label>
+                        </div>
+                    </div>
+
+
+                    <div *ngFor="let unitPrice of getUnitPricesByType(2); let i = index" [formGroup]="unitPrice" class="flex row-gap"
+                        style="margin-left: 20px;">
+                        <div class="data-flex">
+                            <input class="fullwidth" pInputText formControlName="order_type" formControlLabel="週末_オーダー" />
+                        </div>
+                        <p-inputNumber class="data-flex fullwidth-input" formControlName="unit_price" formControlLabel="週末_単価" mode="currency" currency="JPY" [maxFractionDigits]="0"></p-inputNumber>
+                        <div fxLayout="row" fxLayoutAlign="center center" style="display: flex; align-items: center;">
+                            <span>/日</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="add-button" style="margin-left: 2px;">
+                            <button pButton *ngIf="i === getUnitPricesByType(2).length - 1" icon="pi pi-plus" label="" class="icon-button"
+                                (click)="addUnitPrice(2)"></button>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" class="add-button" style="margin-left: 2px;">
+                            <button pButton *ngIf="i < getUnitPricesByType(2).length - 1 || getUnitPricesByType(2).length > 1" type="button" icon="pi pi-minus" class="icon-button"
+                                (click)="removeUnitPrice(2, i)"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions-section-end">
+            <button pButton type="button" label="登録" icon="pi pi-check" style="margin-top: 1rem;"
+                (click)="saveStore()"></button>
+        </div>
+    </form>
+</div>

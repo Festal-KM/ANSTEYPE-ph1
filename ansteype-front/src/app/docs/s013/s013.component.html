@@ -1,0 +1,45 @@
+<div class="card input-card flex flex-column gap-3">
+    <div class="actions-section">
+        <button pButton type="button" icon="pi pi-arrow-left" label="戻る" class="back-button"
+            (click)="goBack()"></button>
+    </div>
+
+    <div class="form-container">
+        <form [formGroup]="userForm">
+            <app-error-messages></app-error-messages>
+
+            <div fxLayout="row" class="flex gap-3">
+                <div fxFlex="50%" class="input-group-column fullwidth">
+                    <label>姓：</label>
+                    <input pInputText formControlName="user_name_first" formControlLabel="姓" class="fullwidth" />
+                </div>
+                <div fxFlex="50%" class="input-group-column fullwidth">
+                    <label>名：</label>
+                    <input pInputText formControlName="user_name_last" formControlLabel="名" class="fullwidth" />
+                </div>
+            </div>
+            <div class="input-group-column form-row">
+                <label>メールアドレス：</label>
+                <input pInputText formControlName="user_mail" formControlLabel="メールアドレス" class="fullwidth" />
+            </div>
+            <div class="input-group-column form-row">
+                <label>パスワード：</label>
+                <div class="fullwidth">
+                    <input style="width:90%" pInputText [type]=" showPassword ? 'text' : 'password'"
+                        formControlName="password" formControlLabel="パスワード" />
+                    <i style="padding-left: 10px;" (click)="togglePassword()" class="pi"
+                        [ngClass]="{'pi-eye': !showPassword, 'pi-eye-slash': showPassword}"></i>
+
+                </div>
+
+            </div>
+            <div class="input-group-column form-row">
+                <label fxFlex="20%">権限：</label>
+                <p-dropdown fxFlex="80%" [options]="roles" formControlName="role" formControlLabel="権限"  placeholder="--未選択--"></p-dropdown>
+            </div>
+            <div class="actions-section">
+                <button pButton icon="pi pi-save" [label]="this.user ? '更新' : '登録'" (click)="onSubmit()"></button>
+            </div>
+        </form>
+    </div>
+</div>

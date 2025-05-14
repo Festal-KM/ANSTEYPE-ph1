@@ -1,0 +1,45 @@
+.footer {
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-top: 1px solid #ddd;
+}
+
+.actions-section-end{
+  display: flex !important;
+  justify-content: end !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+.table-container {
+  min-height: 0;  /* 避免 flex 导致无限膨胀 */
+  } 
+  ::ng-deep .p-datatable-wrapper {
+    min-height: 63vh !important; /* 使用 !important 确保样式被应用 */
+    display: flex;
+    flex-direction: column;
+  }
+
+::ng-deep .p-datatable-wrapper .p-datatable-scrollable-body {
+  height: calc(63vh - 40px) !important; /* 确保表格体部分有滚动 */
+  overflow-y: auto !important;
+}
+
+::ng-deep .p-datatable-wrapper .p-datatable-scrollable-header {
+  overflow: hidden !important;
+}
+::ng-deep .p-dropdown {
+  width: 200px; /* 固定宽度 */
+}
+.dropdown-width{
+  width: 15%;
+}
+.center-content {
+  text-align: center; /* 水平居中 */
+  vertical-align: middle; /* 垂直居中 */
+}
+.header-container {
+  position: relative;
+  padding-left: 20px;
+  z-index: 10; /* 确保它在表格之上 */
+  background: white; /* 防止透明时被表格内容透过去 */
+}

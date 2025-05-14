@@ -1,0 +1,50 @@
+.upload-section {
+    flex: 0 0 40%;
+    max-width: 40%;
+    margin-right: 20px;
+    .upload-box {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        color: #777;
+
+        small {
+            display: block;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+    }
+}
+
+.footer {
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ddd;
+    gap: 15px;
+}
+
+.form-row {
+    margin-top: 16px;
+  }
+
+.row-flex-1{
+    flex: 0 0 10%;
+    width: 100 !important;
+    align-items: center !important;
+    margin-right: 10px;
+}
+
+.row-flex-2{
+    flex: 0 0 90%;
+    width: 100 !important;
+    align-items: center;
+}
+
+.text-right{
+    text-align: right;
+    display: block; 
+}
+
+label {
+    font-size: medium;
+  }

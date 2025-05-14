@@ -1,0 +1,76 @@
+/* Container Styles */
+.container {
+    height: 100vh;
+    background-color: #A9B8D4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card Styles */
+.card {
+    background-color: white;
+    width: 500px;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+.header {
+    margin-bottom: 1.5rem;
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Form Row Styles */
+.form-row {
+    display: flex;
+    flex-wrap: nowrap;
+    /* 确保一行不换行 */
+    margin-bottom: 1rem;
+}
+
+/* Button Styles */
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+
+.dialog-content {
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+p {
+    margin: 0 0 0.5rem 0;
+}
+
+.label {
+    text-align: right;
+    padding-right: 0.5rem;
+    flex: 0 0 30%;
+}
+
+.dialog-row {
+    display: flex;
+}
